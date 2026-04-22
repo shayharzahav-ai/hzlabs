@@ -194,6 +194,16 @@
             letter-spacing:-.5px;
         }
         .logo-sub{font-size:.6rem;font-weight:500;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;}
+
+        /* ── LOGO MARK SVG ───────────────────────────── */
+        .hz-mark-dot { fill: rgba(255,255,255,.95); }
+        .hz-mark-z   { stroke: rgba(255,255,255,.82); }
+        .hz-mark-h   { stroke: rgba(255,255,255,.95); }
+        /* Hero mark: no bg box, use real brand colors */
+        .hero-logo-icon .hz-mark-dot { fill: #3bbcb0; }
+        .hero-logo-icon .hz-mark-z   { stroke: #3bbcb0; }
+        .hero-logo-icon .hz-mark-h   { stroke: #1b2744; }
+        [data-theme="dark"] .hero-logo-icon .hz-mark-h { stroke: #dde4ee; }
         .nav-right{display:flex;align-items:center;gap:2rem;}
         .nav-links{display:flex;gap:2.2rem;list-style:none;}
         .nav-links a{
@@ -268,14 +278,13 @@
             animation:fadeUp .9s ease .25s forwards;
         }
         .hero-logo-icon{
-            width:96px;height:96px;border-radius:22px;
-            background:var(--gradient);
+            width:108px;height:108px;
+            background:transparent;
             display:flex;align-items:center;justify-content:center;
-            font-family:'Space Grotesk',monospace;font-weight:700;font-size:2.6rem;
-            color:#fff;position:relative;overflow:hidden;
-            box-shadow:0 0 56px var(--glow-strong),0 18px 36px rgba(0,0,0,.25);
-            margin-bottom:1.4rem;
+            position:relative;overflow:visible;
+            margin-bottom:1.6rem;
             animation:logoFloat 6s ease-in-out infinite;
+            filter:drop-shadow(0 0 22px var(--glow-strong)) drop-shadow(0 12px 28px rgba(0,0,0,.2));
         }
         @keyframes logoFloat{
             0%,100%{transform:translateY(0) rotate(0);}
@@ -709,10 +718,19 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="logo-wrap">
-                <div class="logo-icon">HZ</div>
+                <div class="logo-icon">
+                    <svg viewBox="0 0 90 108" fill="none" style="width:26px;height:26px;" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
+                        <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <div class="logo-text">
                     <span class="logo-main">HZ Labs</span>
-                    <span class="logo-sub">Systems Development</span>
+                    <span class="logo-sub">טכנולוגיה שמחברת אנשים לעשייה</span>
                 </div>
             </a>
             <div class="nav-right">
@@ -740,9 +758,18 @@
         <div class="hero-grid"></div>
         <div class="hero-content">
             <div class="hero-logo-big">
-                <div class="hero-logo-icon">HZ</div>
-                <div class="hero-logo-text">HZ Labs</div>
-                <div class="hero-logo-sub">Systems Development</div>
+                <div class="hero-logo-icon">
+                    <svg viewBox="0 0 90 108" fill="none" style="width:108px;height:108px;" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
+                        <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="hero-logo-text">HZ LABS</div>
+                <div class="hero-logo-sub">טכנולוגיה שמחברת אנשים לעשייה</div>
             </div>
             <div class="hero-badge">פיתוח מערכות עם הבנה אנושית עמוקה</div>
             <p class="hero-tagline">מפתחים יחד את התשתית לעשייה שלכם</p>
@@ -991,7 +1018,16 @@
 
     <footer>
         <div class="footer-logo-wrap">
-            <div class="footer-logo-icon">HZ</div>
+            <div class="footer-logo-icon">
+                <svg viewBox="0 0 90 108" fill="none" style="width:22px;height:22px;" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
+                    <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
+                    <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
+                    <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
+                    <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
+                    <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                </svg>
+            </div>
             <div class="footer-logo-text">HZ Labs</div>
         </div>
         <ul class="footer-links">

@@ -128,11 +128,12 @@
             width: 36px; height: 36px; border-radius: 9px;
             background: var(--accent-gradient);
             display: flex; align-items: center; justify-content: center;
-            font-family: 'Space Grotesk', monospace;
-            font-weight: 700; font-size: 0.9rem; color: #fff;
             box-shadow: 0 0 16px var(--accent-glow);
             flex-shrink: 0;
         }
+        .hz-mark-dot { fill: rgba(255,255,255,.95); }
+        .hz-mark-z   { stroke: rgba(255,255,255,.82); }
+        .hz-mark-h   { stroke: rgba(255,255,255,.95); }
         .logo-text {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.15rem; font-weight: 700;
@@ -577,7 +578,16 @@
     <header class="top-bar">
         <div class="top-bar-inner">
             <a href="landing_page.html" class="logo-wrap">
-                <div class="logo-icon">HZ</div>
+                <div class="logo-icon">
+                    <svg viewBox="0 0 90 108" fill="none" style="width:24px;height:24px;" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
+                        <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
+                        <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <span class="logo-text">HZ Labs</span>
             </a>
             <div class="top-bar-right">
