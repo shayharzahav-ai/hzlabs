@@ -171,21 +171,11 @@
         }
         .logo-wrap{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
         .logo-icon{
-            width:40px;height:40px;border-radius:10px;
-            background:var(--gradient);
+            width:42px;height:42px;
             display:flex;align-items:center;justify-content:center;
-            font-family:'Space Grotesk',monospace;font-weight:700;font-size:1rem;
-            color:#fff;position:relative;overflow:hidden;
-            box-shadow:0 0 18px var(--glow);
-            transition:all .4s ease;
+            flex-shrink:0;transition:transform .35s ease;
         }
-        .logo-icon::before{
-            content:'';position:absolute;inset:0;
-            background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);
-            transform:translateX(-100%);transition:transform .55s ease;
-        }
-        .logo-wrap:hover .logo-icon::before{transform:translateX(100%);}
-        .logo-wrap:hover .logo-icon{transform:scale(1.07) rotate(-2deg);box-shadow:0 0 28px var(--glow-strong);}
+        .logo-wrap:hover .logo-icon{transform:scale(1.08);}
         .logo-text{display:flex;flex-direction:column;line-height:1.1;}
         .logo-main{
             font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;
@@ -196,14 +186,12 @@
         .logo-sub{font-size:.6rem;font-weight:500;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;}
 
         /* ── LOGO MARK SVG ───────────────────────────── */
-        .hz-mark-dot { fill: rgba(255,255,255,.95); }
-        .hz-mark-z   { stroke: rgba(255,255,255,.82); }
-        .hz-mark-h   { stroke: rgba(255,255,255,.95); }
-        /* Hero mark: no bg box, use real brand colors */
-        .hero-logo-icon .hz-mark-dot { fill: #3bbcb0; }
-        .hero-logo-icon .hz-mark-z   { stroke: #3bbcb0; }
-        .hero-logo-icon .hz-mark-h   { stroke: #1b2744; }
-        [data-theme="dark"] .hero-logo-icon .hz-mark-h { stroke: #dde4ee; }
+        .hz-circle { stroke: #1E3A5F; transition: stroke .4s ease; }
+        .hz-h      { stroke: #1E3A5F; transition: stroke .4s ease; }
+        .hz-node   { fill: #2A9D8F; }
+        .hz-z      { stroke: #2A9D8F; }
+        [data-theme="dark"] .hz-circle { stroke: rgba(255,255,255,.22); }
+        [data-theme="dark"] .hz-h      { stroke: #dde4ee; }
         .nav-right{display:flex;align-items:center;gap:2rem;}
         .nav-links{display:flex;gap:2.2rem;list-style:none;}
         .nav-links a{
@@ -290,19 +278,12 @@
             0%,100%{transform:translateY(0) rotate(0);}
             50%{transform:translateY(-14px) rotate(2deg);}
         }
-        .hero-logo-icon::before{
-            content:'';position:absolute;inset:0;
-            background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);
-            animation:shimmer 3.5s ease-in-out infinite;
-        }
+        .hero-logo-icon::before{ display:none; }
         @keyframes shimmer{
             0%{transform:translateX(-100%) rotate(45deg);}
             100%{transform:translateX(100%) rotate(45deg);}
         }
-        .hero-logo-icon::after{
-            content:'';position:absolute;bottom:11px;left:50%;transform:translateX(-50%);
-            width:55%;height:3.5px;background:rgba(255,255,255,.38);border-radius:2px;
-        }
+        .hero-logo-icon::after{ display:none; }
         .hero-logo-text{
             font-family:'Space Grotesk',sans-serif;
             font-size:clamp(2.4rem,6vw,4.4rem);font-weight:700;
@@ -680,9 +661,8 @@
         }
         .footer-logo-wrap{display:inline-flex;align-items:center;gap:.7rem;margin-bottom:.9rem;}
         .footer-logo-icon{
-            width:34px;height:34px;border-radius:8px;
-            background:var(--gradient);display:flex;align-items:center;justify-content:center;
-            font-family:'Space Grotesk',monospace;font-weight:700;font-size:.85rem;color:#fff;
+            width:34px;height:34px;
+            display:flex;align-items:center;justify-content:center;
         }
         .footer-logo-text{
             font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;
@@ -719,13 +699,15 @@
         <div class="nav-container">
             <a href="#" class="logo-wrap">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 90 108" fill="none" style="width:26px;height:26px;" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
-                        <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
-                        <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                    <svg viewBox="0 0 42 42" fill="none" style="width:40px;height:40px;" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="18" class="hz-circle" stroke-width="2" stroke-dasharray="4 3"/>
+                        <circle cx="20" cy="2"  r="2.5" class="hz-node"/>
+                        <circle cx="38" cy="20" r="2.5" class="hz-node"/>
+                        <circle cx="20" cy="38" r="2.5" class="hz-node"/>
+                        <line x1="10" y1="10" x2="10" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="10" y1="20" x2="20" y2="20" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="20" y1="10" x2="20" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <polyline points="24,10 34,10 24,30 34,30" class="hz-z" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <div class="logo-text">
@@ -759,13 +741,15 @@
         <div class="hero-content">
             <div class="hero-logo-big">
                 <div class="hero-logo-icon">
-                    <svg viewBox="0 0 90 108" fill="none" style="width:108px;height:108px;" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
-                        <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
-                        <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
-                        <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                    <svg viewBox="0 0 42 42" fill="none" style="width:100px;height:100px;" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="18" class="hz-circle" stroke-width="2" stroke-dasharray="4 3"/>
+                        <circle cx="20" cy="2"  r="2.5" class="hz-node"/>
+                        <circle cx="38" cy="20" r="2.5" class="hz-node"/>
+                        <circle cx="20" cy="38" r="2.5" class="hz-node"/>
+                        <line x1="10" y1="10" x2="10" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="10" y1="20" x2="20" y2="20" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="20" y1="10" x2="20" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                        <polyline points="24,10 34,10 24,30 34,30" class="hz-z" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <div class="hero-logo-text">HZ LABS</div>
@@ -1019,13 +1003,15 @@
     <footer>
         <div class="footer-logo-wrap">
             <div class="footer-logo-icon">
-                <svg viewBox="0 0 90 108" fill="none" style="width:22px;height:22px;" xmlns="http://www.w3.org/2000/svg">
-                    <circle class="hz-mark-dot" cx="65" cy="15" r="11"/>
-                    <path class="hz-mark-z" d="M 60 26 C 75 44 72 64 57 78 C 46 88 54 96 66 98" stroke-width="8" stroke-linecap="round"/>
-                    <line class="hz-mark-z" x1="57" y1="98" x2="77" y2="98" stroke-width="8" stroke-linecap="round"/>
-                    <line class="hz-mark-h" x1="12" y1="36" x2="18" y2="100" stroke-width="9" stroke-linecap="round"/>
-                    <line class="hz-mark-h" x1="12" y1="65" x2="50" y2="65" stroke-width="9" stroke-linecap="round"/>
-                    <line class="hz-mark-h" x1="48" y1="49" x2="52" y2="87" stroke-width="9" stroke-linecap="round"/>
+                <svg viewBox="0 0 42 42" fill="none" style="width:34px;height:34px;" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" class="hz-circle" stroke-width="2" stroke-dasharray="4 3"/>
+                    <circle cx="20" cy="2"  r="2.5" class="hz-node"/>
+                    <circle cx="38" cy="20" r="2.5" class="hz-node"/>
+                    <circle cx="20" cy="38" r="2.5" class="hz-node"/>
+                    <line x1="10" y1="10" x2="10" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="10" y1="20" x2="20" y2="20" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="20" y1="10" x2="20" y2="30" class="hz-h" stroke-width="3" stroke-linecap="round"/>
+                    <polyline points="24,10 34,10 24,30 34,30" class="hz-z" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
             <div class="footer-logo-text">HZ Labs</div>
