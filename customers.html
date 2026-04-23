@@ -879,8 +879,12 @@
 
         // Check if already logged in
         const sessionCustomer = sessionStorage.getItem('hzlabs-customer');
-        if (sessionCustomer && customers[sessionCustomer]) {
-            showDashboard(sessionCustomer);
+        if (sessionCustomer) {
+            if (customers[sessionCustomer]) {
+                showDashboard(sessionCustomer);
+            } else {
+                sessionStorage.removeItem('hzlabs-customer');
+            }
         }
 
         // Login
@@ -949,7 +953,10 @@
         document.getElementById('logoutBtn').addEventListener('click', () => {
             sessionStorage.removeItem('hzlabs-customer');
             dashboard.classList.remove('show');
-            loginCard.style.display = 'block';
+            loginCard.style.display = '';
+            loginCard.style.animation = 'none';
+            loginCard.offsetHeight;
+            loginCard.style.animation = '';
             loginForm.reset();
             errorMsg.classList.remove('show');
         });
