@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>תעצומות · הספרייה</title>
+<template id="__bundler_thumbnail" data-bg-color="#faf3e7">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="th-sun" cx="50%" cy="55%" r="55%">
+        <stop offset="0%" stop-color="#f3d9a6"/>
+        <stop offset="55%" stop-color="#d88a2a"/>
+        <stop offset="100%" stop-color="#c7431c"/>
+      </radialGradient>
+    </defs>
+    <g transform="translate(600 400)">
+      <circle r="280" fill="none" stroke="#dccbb8" stroke-width="3"/>
+      <circle r="220" fill="none" stroke="#dccbb8" stroke-width="3"/>
+      <circle r="160" fill="none" stroke="#dccbb8" stroke-width="3"/>
+      <line x1="-320" y1="110" x2="320" y2="110" stroke="#241712" stroke-width="4" opacity="0.3"/>
+      <circle cx="0" cy="50" r="130" fill="url(#th-sun)"/>
+      <g fill="#241712">
+        <circle cx="0" cy="-240" r="12"/>
+        <circle cx="228" cy="-74" r="12"/>
+        <circle cx="141" cy="195" r="12"/>
+        <circle cx="-141" cy="195" r="12"/>
+        <circle cx="-228" cy="-74" r="12"/>
+      </g>
+    </g>
+  </svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#241712; --ink-2:#3a2520; --muted:#6b564d; --muted-2:#9a877c;
+    --line:#ecdfd0; --line-2:#dccbb8;
+    --paper:#faf3e7; --paper-2:#f3ead9; --card:#fff9ec;
+    --ember:#c7431c; --ember-deep:#9a2f10; --ember-soft:#f1cfbe;
+    --saffron:#d88a2a; --saffron-soft:#f3d9a6;
+    --olive:#6f7a3c; --olive-deep:#4d5528; --olive-soft:#d5d9b8;
+    --dusk:#4e3a63; --dusk-soft:#d7ccdf;
+    --ocean:#305a5f; --ocean-soft:#bcd2cf;
+    --sand:#b88752; --sand-soft:#ead8b8;
+    --shadow-sm: 0 1px 2px rgba(36,23,18,.04), 0 2px 10px rgba(36,23,18,.05);
+    --shadow-md: 0 2px 6px rgba(36,23,18,.06), 0 24px 56px -20px rgba(36,23,18,.22);
+    --shadow-lg: 0 4px 14px rgba(36,23,18,.08), 0 48px 100px -28px rgba(36,23,18,.28);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Assistant','Heebo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .serif{font-family:'Frank Ruhl Libre',Georgia,serif;letter-spacing:-0.01em}
+  .mono{font-family:'Heebo',sans-serif;font-variant-numeric:tabular-nums}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  a{color:inherit;text-decoration:none}
+  .frame{max-width:1320px;margin:0 auto;padding:0 40px}
+  @media (max-width:720px){.frame{padding:0 20px}}
+
+  /* ---- topbar ---- */
+  .topbar{border-bottom:1px solid var(--line);background:color-mix(in oklab,var(--paper) 88%,transparent);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:76px;gap:32px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:40px;height:40px}
+  .brand-text .t1{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1}
+  .brand-text .t2{font-size:10.5px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;font-weight:600}
+  .nav{display:flex;align-items:center;gap:2px}
+  .nav a{padding:10px 16px;border-radius:999px;font-size:14.5px;font-weight:500;color:var(--ink-2);transition:background .18s,color .18s}
+  .nav a:hover{background:var(--paper-2)}
+  .nav a.active{color:var(--ember-deep);background:var(--ember-soft)}
+  .top-actions{display:flex;align-items:center;gap:8px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;background:var(--ember);color:var(--paper);border:1px solid var(--ember);transition:background .18s,transform .18s}
+  .pill:hover{background:var(--ember-deep);transform:translateY(-1px)}
+  .pill.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .pill.ghost:hover{background:var(--paper-2)}
+  .pill.ink{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .pill.soft{background:var(--ember-soft);color:var(--ember-deep);border-color:transparent}
+
+  /* ---- hero ---- */
+  .hero{position:relative;overflow:hidden;padding:80px 0 72px}
+  .hero::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(ellipse 55% 60% at 85% 15%, color-mix(in oklab,var(--saffron) 32%, transparent), transparent 60%),
+    radial-gradient(ellipse 45% 55% at 5% 95%, color-mix(in oklab,var(--ember) 22%, transparent), transparent 60%);pointer-events:none}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.25fr 1fr;gap:64px;align-items:end}
+  @media (max-width:960px){.hero-inner{grid-template-columns:1fr;gap:40px}}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember-deep);font-weight:700;margin-bottom:22px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--ember)}
+  .eyebrow .line{width:32px;height:1px;background:var(--ember-deep);opacity:.4}
+  h1.display{font-family:'Frank Ruhl Libre',serif;font-size:clamp(44px,5.6vw,84px);line-height:1;letter-spacing:-0.025em;font-weight:500;margin:0 0 26px;text-wrap:balance}
+  h1.display em{font-style:italic;color:var(--ember-deep);font-weight:400}
+  .lede{font-size:19px;line-height:1.55;color:var(--muted);max-width:52ch;margin:0 0 36px;text-wrap:pretty}
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* ---- Five Ts quick-nav ---- */
+  .tees-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:8px;box-shadow:var(--shadow-sm)}
+  .tee-link{display:flex;flex-direction:column;align-items:center;padding:20px 10px 18px;border-radius:18px;text-align:center;cursor:pointer;transition:background .2s}
+  .tee-link:hover{background:var(--paper-2)}
+  .tee-link .letter{font-family:'Frank Ruhl Libre',serif;font-size:38px;line-height:1;font-weight:500;margin-bottom:8px}
+  .tee-link .name{font-family:'Frank Ruhl Libre',serif;font-size:16px;font-weight:500}
+  .tee-link .count{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+  .tee-link.consciousness .letter{color:var(--dusk)}
+  .tee-link.nutrition    .letter{color:var(--sand)}
+  .tee-link.movement     .letter{color:var(--olive)}
+  .tee-link.support      .letter{color:var(--ocean)}
+  .tee-link.hope         .letter{color:var(--ember)}
+
+  /* ---- section ---- */
+  .section{padding:80px 0}
+  .section.alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px}
+  .sec-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ember-deep);font-weight:700}
+  .sec-title{font-family:'Frank Ruhl Libre',serif;font-size:40px;font-weight:500;margin:10px 0 0;line-height:1.05;letter-spacing:-.015em;text-wrap:balance}
+  .sec-sub{color:var(--muted);font-size:16px;margin-top:12px;max-width:56ch;line-height:1.6}
+  .sec-link{font-size:14px;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:border-color .2s,color .2s}
+  .sec-link:hover{border-color:var(--ember);color:var(--ember-deep)}
+
+  /* ---- weekly feature ---- */
+  .weekly{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+  @media (max-width:960px){.weekly{grid-template-columns:1fr}}
+  .weekly-video{position:relative;aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,#7a3b24,#341510);box-shadow:var(--shadow-lg)}
+  .weekly-video::after{content:'';position:absolute;inset:0;background:
+    repeating-linear-gradient(115deg,rgba(255,240,220,.05) 0 2px, transparent 2px 14px),
+    radial-gradient(ellipse at center, transparent 20%, rgba(36,23,18,.38) 100%)}
+  .play-btn{position:absolute;inset:0;margin:auto;width:80px;height:80px;border-radius:50%;background:var(--paper);z-index:2;display:grid;place-items:center;box-shadow:0 20px 60px rgba(0,0,0,.4);cursor:pointer;transition:transform .2s}
+  .play-btn:hover{transform:scale(1.06)}
+  .play-btn svg{width:28px;height:28px;color:var(--ink);margin-inline-start:3px}
+  .duration-chip{position:absolute;bottom:16px;inset-inline-end:16px;z-index:2;background:rgba(36,23,18,.8);color:var(--paper);padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;backdrop-filter:blur(6px);font-family:'Heebo',sans-serif}
+  .weekly-world{position:absolute;top:16px;inset-inline-start:16px;z-index:2;display:inline-flex;align-items:center;gap:8px;background:rgba(36,23,18,.35);backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px;color:#fff;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  .weekly-world .dot{width:7px;height:7px;border-radius:50%;background:var(--ember-soft)}
+  .weekly-meta .tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember-deep);font-weight:700;margin-bottom:14px}
+  .weekly-meta h3{font-family:'Frank Ruhl Libre',serif;font-size:34px;line-height:1.1;letter-spacing:-.01em;font-weight:500;margin:0 0 16px;text-wrap:balance}
+  .weekly-meta p{color:var(--muted);font-size:16px;line-height:1.6;margin:0 0 24px}
+  .weekly-byline{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line);font-size:14px}
+  .weekly-byline .avatar{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 35%, var(--saffron-soft), var(--ember) 85%)}
+  .weekly-byline strong{font-weight:600}
+  .weekly-byline .role{color:var(--muted)}
+
+  /* ---- library stat ---- */
+  .lib-stat{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow-sm)}
+  .lib-stat h3{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 22px}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .stat{border-top:1px solid var(--line);padding-top:18px}
+  .stat .n{font-family:'Frank Ruhl Libre',serif;font-size:42px;line-height:1;font-weight:500;color:var(--ink)}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:6px}
+  .stat-note{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+  .stat-note strong{color:var(--ink);font-weight:600}
+
+  /* ---- world block ---- */
+  .world-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;gap:24px}
+  .world-head .side{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .world-head .letter{font-family:'Frank Ruhl Libre',serif;font-size:56px;line-height:.9;font-weight:500;letter-spacing:-0.02em}
+  .world-head .meta-line{display:flex;flex-direction:column}
+  .world-head .w-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+  .world-head h3{font-family:'Frank Ruhl Libre',serif;font-size:32px;font-weight:500;margin:4px 0 0;letter-spacing:-.01em;line-height:1.1}
+  .world-head .w-sub{font-size:14px;color:var(--muted);margin-top:6px}
+  .world[data-world="consciousness"] .letter,.world[data-world="consciousness"] .w-kicker{color:var(--dusk)}
+  .world[data-world="nutrition"] .letter,.world[data-world="nutrition"] .w-kicker{color:var(--sand)}
+  .world[data-world="movement"] .letter,.world[data-world="movement"] .w-kicker{color:var(--olive)}
+  .world[data-world="support"] .letter,.world[data-world="support"] .w-kicker{color:var(--ocean)}
+  .world[data-world="hope"] .letter,.world[data-world="hope"] .w-kicker{color:var(--ember)}
+
+  .media-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media (max-width:960px){.media-row{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.media-row{grid-template-columns:1fr}}
+
+  .media-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
+  .media-card:hover{transform:translateY(-3px);border-color:var(--ember-soft);box-shadow:var(--shadow-md)}
+  .media-thumb{aspect-ratio:16/10;position:relative;overflow:hidden}
+  .media-thumb::after{content:'';position:absolute;inset:0;background:
+    repeating-linear-gradient(110deg,rgba(255,240,220,.05) 0 2px,transparent 2px 14px),
+    linear-gradient(180deg,transparent 45%, rgba(0,0,0,.42))}
+  .media-thumb .play{position:absolute;inset:0;margin:auto;width:48px;height:48px;border-radius:50%;background:var(--paper);display:grid;place-items:center;z-index:2;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .media-thumb .play svg{width:16px;height:16px;color:var(--ink);margin-inline-start:2px}
+  .media-thumb .dur{position:absolute;bottom:12px;inset-inline-end:12px;z-index:2;background:rgba(36,23,18,.8);color:var(--paper);padding:4px 9px;border-radius:5px;font-size:11px;font-weight:600;font-family:'Heebo',sans-serif;backdrop-filter:blur(4px)}
+  .media-thumb .world-tag{position:absolute;top:12px;inset-inline-start:12px;z-index:2;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--paper);background:rgba(36,23,18,.35);backdrop-filter:blur(6px);padding:5px 10px;border-radius:999px}
+  .media-body{padding:16px 18px 18px}
+  .media-body h5{font-family:'Frank Ruhl Libre',serif;font-size:18px;line-height:1.25;font-weight:500;margin:0 0 8px;letter-spacing:-.005em;text-wrap:pretty}
+  .media-byline{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .media-byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
+
+  .pos-ember{background:linear-gradient(160deg,#c7431c,#5a1a08)}
+  .pos-saffron{background:linear-gradient(160deg,#d88a2a,#6b3e0d)}
+  .pos-olive{background:linear-gradient(160deg,#6f7a3c,#2f3416)}
+  .pos-ocean{background:linear-gradient(160deg,#305a5f,#102325)}
+  .pos-dusk{background:linear-gradient(160deg,#4e3a63,#1e1429)}
+  .pos-sand{background:linear-gradient(160deg,#b88752,#563a1e)}
+
+  /* ---- events ---- */
+  .events-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media (max-width:720px){.events-grid{grid-template-columns:1fr}}
+  .event{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;display:grid;grid-template-columns:80px 1fr auto;gap:22px;align-items:center;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .event:hover{transform:translateY(-2px);border-color:var(--ember-soft);box-shadow:var(--shadow-md)}
+  .event-date{width:80px;aspect-ratio:1;border-radius:16px;background:var(--ink);color:var(--paper);display:grid;place-items:center;text-align:center}
+  .event-date .d{font-family:'Frank Ruhl Libre',serif;font-size:34px;font-weight:500;line-height:1}
+  .event-date .m{font-size:11px;text-transform:uppercase;letter-spacing:.12em;opacity:.75;margin-top:3px}
+  .event-topic{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ember-deep);margin-bottom:6px}
+  .event-body h4{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:500;margin:0 0 6px;line-height:1.2}
+  .event-body .when{font-size:13px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .event-body .when .dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
+  .event-cta{padding:10px 16px;border-radius:999px;background:var(--ember-soft);color:var(--ember-deep);font-size:13px;font-weight:600;white-space:nowrap;transition:background .2s,color .2s}
+  .event-cta:hover{background:var(--ember);color:var(--paper)}
+
+  /* ---- quote band ---- */
+  .quote-band{background:var(--ink);color:var(--paper);padding:120px 0;position:relative;overflow:hidden}
+  .quote-band::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(ellipse 60% 80% at 80% 0%, color-mix(in oklab,var(--ember) 32%, transparent), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 100%, color-mix(in oklab,var(--saffron) 22%, transparent), transparent 60%)}
+  .quote-inner{position:relative;max-width:980px;margin:0 auto;padding:0 40px}
+  .quote-mark{font-family:'Frank Ruhl Libre',serif;font-size:180px;line-height:.7;color:var(--ember);opacity:.55;margin-bottom:-30px;display:inline-block}
+  .quote-text{font-family:'Frank Ruhl Libre',serif;font-weight:400;font-size:clamp(28px,3.4vw,48px);line-height:1.25;letter-spacing:-.01em;margin:0 0 36px;text-wrap:balance}
+  .quote-text em{color:var(--saffron-soft);font-style:italic}
+  .quote-attr{display:flex;align-items:center;gap:14px;font-size:14px;color:color-mix(in oklab,var(--paper) 70%,transparent);padding-top:22px;border-top:1px solid rgba(255,255,255,.15)}
+  .quote-attr strong{color:var(--paper);font-weight:600}
+
+  /* ---- search ---- */
+  .lib-head{text-align:center;margin-bottom:32px}
+  .lib-head .sec-kicker{display:inline-block}
+  .lib-head .sec-title{margin-top:10px}
+  .lib-head p{color:var(--muted);margin:14px auto 0;max-width:56ch;font-size:16px}
+  .search-bar{max-width:640px;margin:32px auto 0;position:relative}
+  .search-bar input{width:100%;height:56px;border-radius:28px;border:1px solid var(--line-2);background:var(--card);padding:0 56px 0 24px;font-size:16px;color:var(--ink);font-family:inherit;transition:border-color .2s,box-shadow .2s}
+  .search-bar input:focus{outline:0;border-color:var(--ember);box-shadow:0 0 0 4px var(--ember-soft)}
+  .search-bar svg{position:absolute;inset-inline-end:20px;top:50%;transform:translateY(-50%);color:var(--muted-2);pointer-events:none}
+  .chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .chip-btn{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;background:transparent;color:var(--ink-2);border:1px solid var(--line-2);transition:background .15s,border-color .15s,color .15s}
+  .chip-btn:hover{background:var(--card);border-color:var(--muted-2)}
+  .chip-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* ---- footer ---- */
+  footer{background:var(--paper-2);border-top:1px solid var(--line);padding:72px 0 36px;margin-top:56px}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--line)}
+  @media (max-width:720px){.footer-grid{grid-template-columns:1fr 1fr}}
+  .footer-col h5{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin:0 0 20px}
+  .footer-col a{display:block;font-size:14px;color:var(--ink-2);padding:6px 0;transition:color .15s}
+  .footer-col a:hover{color:var(--ember-deep)}
+  .footer-col p{font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 20px;max-width:36ch}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;font-size:13px;color:var(--muted)}
+  .footer-bottom a{margin-inline-start:20px}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- MARK (reusable) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <radialGradient id="sunmark" cx="50%" cy="55%" r="55%">
+      <stop offset="0%" stop-color="#f3d9a6"/>
+      <stop offset="55%" stop-color="#d88a2a"/>
+      <stop offset="100%" stop-color="#c7431c"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="frame topbar-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 160 160" aria-hidden="true">
+        <circle cx="80" cy="80" r="72" fill="none" stroke="#dccbb8" stroke-width="2"/>
+        <line x1="10" y1="108" x2="150" y2="108" stroke="#241712" stroke-width="2" opacity=".3"/>
+        <circle cx="80" cy="92" r="40" fill="url(#sunmark)"/>
+        <g fill="#241712"><circle cx="80" cy="22" r="4"/><circle cx="140" cy="58" r="4"/><circle cx="116" cy="128" r="4"/><circle cx="44" cy="128" r="4"/><circle cx="20" cy="58" r="4"/></g>
+      </svg>
+      <div class="brand-text">
+        <div class="t1">תעצומות</div>
+        <div class="t2">הספרייה · יש מקום לריפוי</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#" class="active">הספרייה</a>
+      <a href="#">חמשת ה-ת׳</a>
+      <a href="#">ליווי אישי</a>
+      <a href="#">פעילויות</a>
+      <a href="#">פודקאסט</a>
+      <a href="#">אודות</a>
+    </nav>
+    <div class="top-actions">
+      <a href="Design System.html" class="pill ghost" style="padding:8px 16px;font-size:13px;">מערכת העיצוב</a>
+      <a href="#" class="pill soft" style="padding:10px 18px;font-size:13px;">♡ תרומה</a>
+      <a href="#" class="pill" style="padding:10px 18px;font-size:13px;">הצטרפות</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="frame hero-inner">
+    <div>
+      <div class="eyebrow">
+        <span class="dot"></span>
+        <span>ספרייה · אפריל 2026</span>
+        <span class="line"></span>
+        <span>158 מקשיבים השבוע</span>
+      </div>
+      <h1 class="display">יש מקום<br/>ל <em>ריפוי</em>. ויש<br/>דרך להגיע אליו.</h1>
+      <p class="lede">
+        ספרייה חיה של שיחות, סדנאות, תרגולים ומתכונים — לפוגשי סרטן ולבני משפחותיהם. בנויה סביב חמשת העוגנים של תעצומות: תודעה, תזונה, תנועה, תמיכה ותקווה.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="pill">התחילו את הפרק השבועי</a>
+        <a href="#" class="pill ghost">חיפוש חופשי בספרייה</a>
+      </div>
+    </div>
+
+    <div class="lib-stat reveal">
+      <h3>הספרייה במספרים</h3>
+      <div class="stat-grid">
+        <div class="stat"><div class="n">208</div><div class="l">שיחות ומפגשים</div></div>
+        <div class="stat"><div class="n">45</div><div class="l">מנחות ומנחים</div></div>
+        <div class="stat"><div class="n">5</div><div class="l">עוגני תוכן</div></div>
+      </div>
+      <div class="stat-note"><span>מתעדכן מדי שבוע</span><strong>אפריל 2026</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE Ts NAV -->
+<section style="padding:16px 0 40px;">
+  <div class="frame">
+    <div class="tees-nav">
+      <a href="#world-consciousness" class="tee-link consciousness"><span class="letter">ת</span><span class="name">תודעה</span><span class="count">32 מפגשים</span></a>
+      <a href="#world-nutrition" class="tee-link nutrition"><span class="letter">ת</span><span class="name">תזונה</span><span class="count">28 מפגשים</span></a>
+      <a href="#world-movement" class="tee-link movement"><span class="letter">ת</span><span class="name">תנועה</span><span class="count">24 מפגשים</span></a>
+      <a href="#world-support" class="tee-link support"><span class="letter">ת</span><span class="name">תמיכה</span><span class="count">41 מפגשים</span></a>
+      <a href="#world-hope" class="tee-link hope"><span class="letter">ת</span><span class="name">תקווה</span><span class="count">41 מפגשים</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- WEEKLY -->
+<section class="section" style="padding-top:20px">
+  <div class="frame">
+    <div class="sec-head">
+      <div>
+        <div class="sec-kicker">המפגש השבועי</div>
+        <h2 class="sec-title">השבוע אנחנו מקשיבים לרות</h2>
+      </div>
+      <a href="#" class="sec-link">כל הפרקים ←</a>
+    </div>
+
+    <div class="weekly">
+      <div class="weekly-video">
+        <span class="weekly-world"><span class="dot"></span>תקווה</span>
+        <button class="play-btn" aria-label="נגן">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <span class="duration-chip">58 דקות</span>
+      </div>
+      <div class="weekly-meta">
+        <span class="tag">פודקאסט · פרק 47 · חדש</span>
+        <h3>״הסרטן הוא לא אויב. הוא מורה קשה.״</h3>
+        <p>
+          רות רואי וינשטיין, מייסדת תעצומות, בשיחה ארוכה על הדרך שבה המסע שלה עם הסרטן הפך להיות ההזמנה הגדולה של חייה — ואיך חמשת העוגנים נולדו מתוך הגוף.
+        </p>
+        <div class="weekly-byline">
+          <div class="avatar"></div>
+          <div>
+            <strong>רות רואי וינשטיין</strong>
+            <span class="role"> · מייסדת עמותת תעצומות · מארחת ״יש מקום לריפוי״</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS: CONSCIOUSNESS -->
+<section class="section alt" id="world-consciousness">
+  <div class="frame">
+    <div class="world" data-world="consciousness">
+      <div class="world-head">
+        <div class="side">
+          <span class="letter">ת</span>
+          <div class="meta-line">
+            <span class="w-kicker">עולם · תודעה</span>
+            <h3>לנשום בתוך הסערה</h3>
+            <span class="w-sub">מדיטציה, מודעות, עבודת נפש — להרפות את מה שנתפס.</span>
+          </div>
+        </div>
+        <a href="#" class="sec-link">לכל המפגשים בעולם תודעה ←</a>
+      </div>
+
+      <div class="media-row" id="row-consciousness"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS: NUTRITION -->
+<section class="section" id="world-nutrition">
+  <div class="frame">
+    <div class="world" data-world="nutrition">
+      <div class="world-head">
+        <div class="side">
+          <span class="letter">ת</span>
+          <div class="meta-line">
+            <span class="w-kicker">עולם · תזונה</span>
+            <h3>מזון כתרופה</h3>
+            <span class="w-sub">שיחות עם דיאטניות, מתכונים לחיזוק, סדרות זום פתוחות.</span>
+          </div>
+        </div>
+        <a href="#" class="sec-link">לכל המפגשים בעולם תזונה ←</a>
+      </div>
+      <div class="media-row" id="row-nutrition"></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="section alt">
+  <div class="frame">
+    <div class="sec-head" style="margin-bottom:28px;">
+      <div>
+        <div class="sec-kicker">אירועים קרובים</div>
+        <h2 class="sec-title" style="font-size:32px">מפגשים חיים בתעצומות</h2>
+      </div>
+      <a href="#" class="sec-link">כל האירועים ←</a>
+    </div>
+    <div class="events-grid">
+      <div class="event">
+        <div class="event-date"><div><div class="d">12</div><div class="m">מאי</div></div></div>
+        <div class="event-body">
+          <div class="event-topic">סדנה פתוחה · רישום נדרש</div>
+          <h4>ריטריט בריאה בגלבוע</h4>
+          <div class="when"><span>יום א׳ · שלושה ימים</span><span class="dot"></span><span>28 מקומות</span></div>
+        </div>
+        <a href="#" class="event-cta">הרשמה</a>
+      </div>
+      <div class="event">
+        <div class="event-date"><div><div class="d">19</div><div class="m">מאי</div></div></div>
+        <div class="event-body">
+          <div class="event-topic">מפגש זום · חינם</div>
+          <h4>חברותא לנשים · דנה זליצקי</h4>
+          <div class="when"><span>יום ב׳ · 20:00—21:30</span><span class="dot"></span><span>זום</span></div>
+        </div>
+        <a href="#" class="event-cta">הרשמה</a>
+      </div>
+      <div class="event">
+        <div class="event-date"><div><div class="d">22</div><div class="m">מאי</div></div></div>
+        <div class="event-body">
+          <div class="event-topic">תרגול בוקר · קבוע</div>
+          <h4>צ׳י קונג · דינה מרכוס</h4>
+          <div class="when"><span>יום ה׳ · 07:30—08:15</span><span class="dot"></span><span>זום · חינם</span></div>
+        </div>
+        <a href="#" class="event-cta">הרשמה</a>
+      </div>
+      <div class="event">
+        <div class="event-date"><div><div class="d">28</div><div class="m">מאי</div></div></div>
+        <div class="event-body">
+          <div class="event-topic">הרצאה · ד״ר עידן הרפז</div>
+          <h4>קנאביס רפואי ופסילוסיבין</h4>
+          <div class="when"><span>יום ה׳ · 19:30</span><span class="dot"></span><span>זום · הרשמה מראש</span></div>
+        </div>
+        <a href="#" class="event-cta">הרשמה</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS: MOVEMENT -->
+<section class="section" id="world-movement">
+  <div class="frame">
+    <div class="world" data-world="movement">
+      <div class="world-head">
+        <div class="side">
+          <span class="letter">ת</span>
+          <div class="meta-line">
+            <span class="w-kicker">עולם · תנועה</span>
+            <h3>הגוף יודע לפני הראש</h3>
+            <span class="w-sub">צ׳י קונג, יוגה עדינה, תרגולי נשימה, שיעורים בני 15 דקות.</span>
+          </div>
+        </div>
+        <a href="#" class="sec-link">לכל המפגשים בעולם תנועה ←</a>
+      </div>
+      <div class="media-row" id="row-movement"></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-band">
+  <div class="quote-inner">
+    <div class="quote-mark">״</div>
+    <p class="quote-text">
+      בשפת תעצומות אנחנו לא חולי סרטן, אלא <em>פוגשי סרטן</em>. המסע הוא ״חדר הכושר״ — וזו ההזדמנות להתחלה של חיים חדשים.
+    </p>
+    <div class="quote-attr">
+      <strong>רות רואי וינשטיין</strong>
+      <span>מייסדת עמותת תעצומות · מתוך שיחת פתיחה בריטריט בגלבוע</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS: SUPPORT -->
+<section class="section alt" id="world-support">
+  <div class="frame">
+    <div class="world" data-world="support">
+      <div class="world-head">
+        <div class="side">
+          <span class="letter">ת</span>
+          <div class="meta-line">
+            <span class="w-kicker">עולם · תמיכה</span>
+            <h3>אף אחד לא צריך ללכת לבד</h3>
+            <span class="w-sub">ליווי אישי משולב, קבוצות שיתוף, מעגלים לבני משפחה.</span>
+          </div>
+        </div>
+        <a href="#" class="sec-link">לכל המפגשים בעולם תמיכה ←</a>
+      </div>
+      <div class="media-row" id="row-support"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS: HOPE -->
+<section class="section" id="world-hope">
+  <div class="frame">
+    <div class="world" data-world="hope">
+      <div class="world-head">
+        <div class="side">
+          <span class="letter">ת</span>
+          <div class="meta-line">
+            <span class="w-kicker">עולם · תקווה</span>
+            <h3>מבריאים מספרים</h3>
+            <span class="w-sub">סיפורי הבראה, שיחות השראה, הפודקאסט ״יש מקום לריפוי״.</span>
+          </div>
+        </div>
+        <a href="#" class="sec-link">לכל הסיפורים ←</a>
+      </div>
+      <div class="media-row" id="row-hope"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH / FILTER -->
+<section class="section alt">
+  <div class="frame">
+    <div class="lib-head">
+      <div class="sec-kicker">כל הספרייה</div>
+      <h2 class="sec-title">חפשו לפי תחושה, נושא, או מנחה.</h2>
+      <p>״היום אני צריכ/ה לנשום.״ ״מה אפשר לאכול אחרי כימותרפיה?״ ״מי עושה יוגה בזום?״ — פשוט כתבו.</p>
+      <div class="search-bar">
+        <input type="text" placeholder="חיפוש פרק, נושא, מורה, מתכון…" />
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </div>
+      <div class="chips">
+        <button class="chip-btn active">הכל</button>
+        <button class="chip-btn">תודעה</button>
+        <button class="chip-btn">תזונה</button>
+        <button class="chip-btn">תנועה</button>
+        <button class="chip-btn">תמיכה</button>
+        <button class="chip-btn">תקווה</button>
+        <button class="chip-btn">פודקאסט</button>
+        <button class="chip-btn">תרגול קצר</button>
+        <button class="chip-btn">למלווים</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="frame">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="brand" style="margin-bottom:18px;">
+          <svg class="brand-mark" viewBox="0 0 160 160" style="width:40px;height:40px;">
+            <circle cx="80" cy="80" r="72" fill="none" stroke="#dccbb8" stroke-width="2"/>
+            <line x1="10" y1="108" x2="150" y2="108" stroke="#241712" stroke-width="2" opacity=".3"/>
+            <circle cx="80" cy="92" r="40" fill="url(#sunmark)"/>
+            <g fill="#241712"><circle cx="80" cy="22" r="4"/><circle cx="140" cy="58" r="4"/><circle cx="116" cy="128" r="4"/><circle cx="44" cy="128" r="4"/><circle cx="20" cy="58" r="4"/></g>
+          </svg>
+          <div class="brand-text">
+            <div class="t1">תעצומות</div>
+            <div class="t2">יש מקום לריפוי</div>
+          </div>
+        </div>
+        <p>עמותת תעצומות מלווה פוגשי סרטן ובני משפחותיהם במסע של ריפוי והחלמה, בשילוב חמישה עוגנים: תודעה, תזונה, תנועה, תמיכה ותקווה.</p>
+        <p style="font-size:13px;">ע״ר 580558138 · ניתן לקבל קבלה ס׳ 46</p>
+      </div>
+      <div class="footer-col">
+        <h5>הספרייה</h5>
+        <a href="#">המפגש השבועי</a>
+        <a href="#">חמשת ה-ת׳</a>
+        <a href="#">פודקאסט</a>
+        <a href="#">סיפורי הבראה</a>
+        <a href="#">אירועים</a>
+      </div>
+      <div class="footer-col">
+        <h5>קהילה</h5>
+        <a href="#">ליווי אישי</a>
+        <a href="#">התנדבות</a>
+        <a href="#">כרטיס חבר</a>
+        <a href="#">קהילת וואטסאפ</a>
+        <a href="#">צור קשר</a>
+      </div>
+      <div class="footer-col">
+        <h5>עדכונים</h5>
+        <p style="font-size:13px;margin-bottom:14px;">הפרק השבועי, אירועים קרובים וסיפורים — ישירות לתיבה.</p>
+        <a href="#" class="pill ghost" style="display:inline-block;padding:10px 18px;font-size:13px;">הרשמה לניוזלטר</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 עמותת תעצומות (ע״ר 580558138)</span>
+      <div>
+        <a href="#">תנאי שימוש</a>
+        <a href="#">פרטיות</a>
+        <a href="#">נגישות</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const rows = {
+  consciousness: [
+    {title:"בין חמלה לחמלה עצמית · מפגש ראשון", who:"ד״ר אסף סטי אל-בר", dur:"58:20", tag:"סדרה", pos:"pos-dusk"},
+    {title:"לנשום את מה שקשה להחזיק", who:"טלי הלמן-מור", dur:"44:08", tag:"מפגש #2", pos:"pos-dusk"},
+    {title:"מדיטציה קצרה · שלושה עוגנים", who:"יואב אלון", dur:"14:12", tag:"תרגול", pos:"pos-dusk"},
+    {title:"אמון הגוף, מודעות הלב", who:"ד״ר נעמה אושרי", dur:"72:30", tag:"הרצאה", pos:"pos-dusk"},
+  ],
+  nutrition: [
+    {title:"ארוחת בוקר שתומכת ריפוי", who:"ד״ר איילת כהן", dur:"36:40", tag:"סדרה", pos:"pos-sand"},
+    {title:"איך לאכול אחרי כימותרפיה", who:"שירי בן-ארי", dur:"52:18", tag:"שיחה", pos:"pos-sand"},
+    {title:"שייקים למערכת החיסון", who:"דיאנה עברון", dur:"28:05", tag:"מתכון+שיחה", pos:"pos-sand"},
+    {title:"מה באמת יודעים על סוכר", who:"ד״ר גיא אבישי", dur:"61:50", tag:"הרצאה", pos:"pos-sand"},
+  ],
+  movement: [
+    {title:"צ׳י קונג לבוקר · 15 דקות", who:"דינה מרכוס", dur:"16:02", tag:"תרגול", pos:"pos-olive"},
+    {title:"יוגה עדינה לכל גוף", who:"תמר ברנר", dur:"42:40", tag:"מפגש #1", pos:"pos-olive"},
+    {title:"נשימה בזמן כאב", who:"גל נעמן", dur:"22:18", tag:"כלי קצר", pos:"pos-olive"},
+    {title:"הליכה מודעת בטבע", who:"רחל לויתן", dur:"38:05", tag:"סדרה", pos:"pos-olive"},
+  ],
+  support: [
+    {title:"ליווי אישי משולב · איך זה עובד", who:"צוות תעצומות", dur:"31:15", tag:"מבוא", pos:"pos-ocean"},
+    {title:"חברותא לנשים · מפגש חמישי", who:"דנה זליצקי", dur:"64:40", tag:"קבוצה", pos:"pos-ocean"},
+    {title:"למלווה · איך להחזיק בלי לקרוס", who:"אתי הילסום", dur:"49:22", tag:"למלווים", pos:"pos-ocean"},
+    {title:"ילדים של הורה חולה", who:"ד״ר מיכל אלוני", dur:"56:08", tag:"משפחה", pos:"pos-ocean"},
+  ],
+  hope: [
+    {title:"אילת שנהב · סיפור ההבראה שלי", who:"אילת שנהב", dur:"38:11", tag:"פודקאסט", pos:"pos-ember"},
+    {title:"ד״ר ג׳נט מיכאל · חיים שניים", who:"ד״ר ג׳נט מיכאל", dur:"44:50", tag:"שיחה", pos:"pos-ember"},
+    {title:"רות בלוך · צ׳י קונג והחלטה", who:"רות בלוך", dur:"33:25", tag:"סיפור", pos:"pos-ember"},
+    {title:"יוסי רודוי · מהפך תזונתי", who:"יוסי רודוי", dur:"41:07", tag:"סיפור", pos:"pos-ember"},
+  ],
+};
+
+const worldLabels = {
+  consciousness:"תודעה", nutrition:"תזונה", movement:"תנועה", support:"תמיכה", hope:"תקווה"
+};
+
+function card(v, world){
+  return `
+    <a href="#" class="media-card">
+      <div class="media-thumb ${v.pos}">
+        <span class="world-tag">${worldLabels[world]}</span>
+        <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+        <span class="dur">${v.dur}</span>
+      </div>
+      <div class="media-body">
+        <h5>${v.title}</h5>
+        <div class="media-byline"><span>${v.who}</span><span class="dot"></span><span>${v.tag}</span></div>
+      </div>
+    </a>`;
+}
+
+Object.keys(rows).forEach(w => {
+  const el = document.getElementById('row-'+w);
+  if (el) el.innerHTML = rows[w].map(v => card(v, w)).join('');
+});
+
+document.querySelectorAll('.chip-btn').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.chip-btn').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.1});
+document.querySelectorAll('.reveal, .media-card, .event').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+</script>
+</body>
+</html>
