@@ -1196,6 +1196,8 @@
       .nav-toggle { display: flex; }
       .hero-grid { grid-template-columns: 1fr; }
       .hero-visual { order: -1; }
+      /* Fix terminal bar: RTL flex reverses dot order — force LTR for chrome bar */
+      .terminal-bar { direction: ltr; }
       .terminal-body { height: 220px; }
       .hero-meta { grid-template-columns: 1fr; gap: 14px; }
       .section-header { grid-template-columns: 1fr; gap: 16px; }
@@ -1211,6 +1213,9 @@
       .dash-module-grid { grid-template-columns: 1fr; }
       .dash-mock-tabs { display: none; }
       .about-grid { grid-template-columns: 1fr; }
+      /* Show section header before the geometric element on mobile */
+      .about-main { order: 1; }
+      .about-side { order: 2; }
       .about-side .placeholder { position: static; max-width: 360px; }
       .about-side .hz-geo { aspect-ratio: unset; height: 260px; }
       .about-pillars { grid-template-columns: 1fr; gap: 24px; }
@@ -1221,7 +1226,7 @@
     }
 
     @media (max-width: 480px) {
-      :root { --pad-section: 56px; }
+      :root { --pad-section: 40px; }
 
       /* Hero */
       .terminal-body { height: 160px; font-size: 11px; line-height: 1.6; padding: 14px 16px 18px; }
@@ -1232,7 +1237,6 @@
 
       /* Sections */
       .section-header { margin-bottom: 32px; padding-bottom: 20px; }
-      .case-hero { margin-bottom: 28px; }
       .case-block p { font-size: 16px; }
 
       /* Integration dashboard */
@@ -1241,15 +1245,16 @@
       .dash-stat-val { font-size: 20px; }
       .dash-module-row { font-size: 12px; }
 
-      /* About HZ geo */
-      .about-side .hz-geo { height: 200px; }
-      .about-prose { margin: 20px 0 36px; }
+      /* About */
+      .about-side .hz-geo { height: 180px; margin-top: 12px; }
+      .about-prose { margin: 20px 0 28px; }
 
-      /* Contact */
-      .contact-sub { margin: 0 0 32px; }
-      .contact-mail { padding: 16px 20px; margin-bottom: 36px; gap: 10px; }
+      /* Contact — tighten vertical rhythm */
+      .contact-sub { margin: 0 0 28px; }
+      .contact-mail { padding: 16px 20px; margin-bottom: 24px; gap: 10px; }
       .contact-mail-addr { font-size: 13px; word-break: break-all; }
       .contact-mail .mono { font-size: 14px; }
+      .contact-meta { gap: 16px; padding-top: 20px; }
     }
   </style>
 </head>
