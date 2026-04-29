@@ -748,6 +748,97 @@
       font-size: 11px;
       color: var(--fg-2);
     }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about {
+      padding: var(--pad-section) 0;
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--line);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: start;
+    }
+    .about-side .placeholder { position: sticky; top: 110px; }
+    .about-prose {
+      margin: 32px 0 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .about-prose p {
+      margin: 0;
+      font-size: clamp(17px, 1.3vw, 20px);
+      line-height: 1.6;
+      color: var(--fg);
+      max-width: 62ch;
+      text-wrap: pretty;
+    }
+    .about-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      border-top: 1px solid var(--line);
+      padding-top: 32px;
+    }
+    .pillar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pillar .mono { color: var(--accent); }
+    .pillar h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .pillar p {
+      margin: 0;
+      color: var(--fg-2);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── HZ Geometric Visual ─────────────────────────── */
+    .hz-geo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hz-geo-inner {
+      position: relative;
+      width: 180px; height: 180px;
+    }
+    .hz-geo-inner svg { width: 100%; height: 100%; }
+    .hz-geo-label {
+      position: absolute;
+      bottom: 16px;
+      inset-inline-end: 16px;
+      font-family: var(--t-mono);
+      font-size: 11px;
+      color: var(--fg-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hz-geo-corner {
+      position: absolute;
+      width: 16px; height: 16px;
+      border: 1px solid var(--accent);
+    }
+    .hz-geo-corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+    .hz-geo-corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+    .hz-geo-corner.bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
+    .hz-geo-corner.br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
   </style>
 </head>
 <body>
@@ -1005,6 +1096,53 @@
             <ul class="service-tags"><li class="mono">API</li><li class="mono">Webhooks</li><li class="mono">ETL</li></ul>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="about-side">
+          <div class="hz-geo">
+            <span class="hz-geo-corner tl"></span>
+            <span class="hz-geo-corner tr"></span>
+            <span class="hz-geo-corner bl"></span>
+            <span class="hz-geo-corner br"></span>
+            <div class="hz-geo-inner">
+              <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="90" cy="90" r="72" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3"/>
+                <circle cx="90" cy="90" r="48" stroke="var(--line)" stroke-width="1"/>
+                <circle cx="90" cy="18" r="4" fill="var(--accent)"/>
+                <circle cx="162" cy="90" r="4" fill="var(--accent)"/>
+                <circle cx="90" cy="162" r="4" fill="var(--accent)"/>
+                <circle cx="18" cy="90" r="4" fill="var(--accent)"/>
+                <line x1="56" y1="66" x2="56" y2="114" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+                <line x1="56" y1="90" x2="78" y2="90" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+                <line x1="78" y1="66" x2="78" y2="114" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+                <polyline points="96,66 124,66 96,114 124,114" stroke="var(--accent)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="hz-geo-label">HZ LABS / EST. 2024</span>
+          </div>
+        </div>
+        <div class="about-main">
+          <header class="section-header">
+            <div class="section-meta">
+              <span class="mono section-num">04</span>
+              <span class="mono section-kicker">— אודות</span>
+            </div>
+            <h2 class="section-title">צוות קטן. תוצרים בקנה מידה גדול.</h2>
+          </header>
+          <div class="about-prose">
+            <p>HZ Labs הוא סטודיו פיתוח קטן עם גישה אחת ברורה: מערכות טובות נבנות מתוך הקשבה. אנחנו לא מתחילים מהסטאק — אנחנו מתחילים מהאנשים שישתמשו במערכת, ומהבעיה שצריך לפתור.</p>
+            <p>עבדנו עם עמותות, יוצרי תוכן ומנהלי קהילות שביקשו תשתית טכנולוגית שמתאימה להם — לא להפך. הצוות מביא ניסיון בבניית מערכות מורכבות, ועובד ישירות מול המייסדים — בלי תיווך, בלי שכבות ניהול.</p>
+            <p>אם יש לכם רעיון, או מערכת קיימת שצריכה לעבור שלב — נשמח לשמוע.</p>
+          </div>
+          <div class="about-pillars">
+            <div class="pillar"><span class="mono">/A</span><h4>אדם במרכז</h4><p>נגישות, חוויית משתמש, אמפתיה — לא buzzwords. תהליך עבודה.</p></div>
+            <div class="pillar"><span class="mono">/B</span><h4>קוד שעובד</h4><p>מערכות יציבות, מתועדות, נמסרות — לא פרוטוטיפים שמתפרקים.</p></div>
+            <div class="pillar"><span class="mono">/C</span><h4>שותפות ארוכה</h4><p>אחרי השקה, ממשיכים. תמיכה, פיתוח שוטף, ליווי טכני אמיתי.</p></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
