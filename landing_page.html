@@ -218,6 +218,237 @@
       height: 1.5px;
       background: var(--fg);
     }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      position: relative;
+      padding-top: clamp(48px, 6vw, 96px);
+      padding-bottom: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: end;
+      padding-bottom: clamp(64px, 8vw, 120px);
+    }
+    .hero-content { padding-bottom: 8px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--t-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--fg-3);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 22%, transparent);
+    }
+
+    .hero-title {
+      font-family: var(--t-sans);
+      font-weight: 800;
+      font-size: clamp(48px, 7vw, 104px);
+      line-height: 0.96;
+      letter-spacing: -0.025em;
+      margin: 0 0 36px;
+      color: var(--fg);
+    }
+    .hero-title-line {
+      display: block;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.9s var(--ease) forwards;
+    }
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-sub {
+      max-width: 56ch;
+      font-size: clamp(17px, 1.4vw, 20px);
+      line-height: 1.55;
+      color: var(--fg-2);
+      margin: 0 0 40px;
+      text-wrap: pretty;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      border-radius: 2px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: all 0.25s var(--ease);
+      border: 1px solid transparent;
+    }
+    .btn-arrow {
+      font-family: var(--t-mono);
+      font-size: 14px;
+      transition: transform 0.25s var(--ease);
+    }
+    .btn:hover .btn-arrow { transform: translateX(-4px); }
+
+    .btn-primary {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--fg);
+    }
+    .btn-ghost:hover {
+      border-color: var(--fg);
+      background: var(--bg-2);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      margin: 0;
+    }
+    .hero-meta div { display: flex; flex-direction: column; gap: 6px; }
+    .hero-meta dt {
+      font-family: var(--t-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--fg-3);
+      text-transform: uppercase;
+    }
+    .hero-meta dd {
+      margin: 0;
+      font-size: 15px;
+      color: var(--fg);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      position: relative;
+      align-self: stretch;
+    }
+    .hero-visual-tag {
+      position: absolute;
+      bottom: 16px;
+      inset-inline-start: 16px;
+      background: color-mix(in oklch, var(--bg) 84%, transparent);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--fg);
+      border: 1px solid var(--line);
+    }
+    .hero-visual-tag .mono { color: var(--accent); }
+
+    /* Hero marquee */
+    .hero-marquee {
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      white-space: nowrap;
+      animation: scroll 60s linear infinite;
+      font-family: var(--t-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .marquee-track em {
+      font-style: normal;
+      padding: 0 28px;
+    }
+    .marquee-track i {
+      font-style: normal;
+      color: var(--accent);
+      padding: 0 4px;
+    }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(33.33%); } /* RTL: text moves right-to-left visually */
+    }
+
+    /* ── Terminal Visual ─────────────────────────── */
+    .terminal-wrap {
+      position: relative;
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-3);
+    }
+    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .t-dot-r { background: #ff5f57; }
+    .t-dot-y { background: #febc2e; }
+    .t-dot-g { background: #28c840; }
+    .terminal-title {
+      font-family: var(--t-mono);
+      font-size: 11px;
+      color: var(--fg-3);
+      margin-inline-start: 6px;
+      letter-spacing: 0.05em;
+    }
+    .terminal-body {
+      padding: 20px 20px 28px;
+      font-family: var(--t-mono);
+      font-size: 13px;
+      line-height: 1.75;
+      direction: ltr;
+      text-align: left;
+    }
+    .t-comment { color: var(--fg-3); }
+    .t-key { color: var(--accent); }
+    .t-val { color: var(--fg-2); }
+    .t-str { color: #a3be8c; }
+    .t-num { color: #b48ead; }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 15px;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1.1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
 <body>
@@ -248,7 +479,91 @@
       </button>
     </div>
   </header>
-  <main id="mainContent"></main>
+  <main id="mainContent">
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow">
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            סטודיו פיתוח · ת״א
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-title-line" style="animation-delay:100ms">טכנולוגיה,</span>
+            <span class="hero-title-line" style="animation-delay:190ms">בקנה מידה אנושי.</span>
+          </h1>
+          <p class="hero-sub">מערכת אחת בייצור עם אלפי משתמשים. צוות קטן. גישה אישית. אפיון, פיתוח, ליווי שוטף — תחת קורת גג אחת.</p>
+          <div class="hero-actions">
+            <a href="#case" class="btn btn-primary">
+              מקרה הבוחן שלנו
+              <span class="btn-arrow" aria-hidden="true">←</span>
+            </a>
+            <a href="mailto:harzahav.labs@gmail.com" class="btn btn-ghost">שיחה ראשונית</a>
+          </div>
+          <dl class="hero-meta">
+            <div><dt>מערכת בייצור</dt><dd>שותפים למסע</dd></div>
+            <div><dt>תחום</dt><dd>פלטפורמות תוכן ומנויים</dd></div>
+            <div><dt>זמינות</dt><dd>לפרויקטים חדשים · 2026</dd></div>
+          </dl>
+        </div>
+        <aside class="hero-visual" aria-hidden="true">
+          <div class="terminal-wrap">
+            <div class="terminal-bar">
+              <span class="t-dot t-dot-r"></span>
+              <span class="t-dot t-dot-y"></span>
+              <span class="t-dot t-dot-g"></span>
+              <span class="terminal-title">hz-labs / architecture.ts</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="t-comment">// HZ Labs — platform stack</span></div>
+              <div>&nbsp;</div>
+              <div><span class="t-key">const</span> <span class="t-val">platform</span> = {</div>
+              <div>&nbsp;&nbsp;<span class="t-key">auth</span>: <span class="t-str">"roles + subscriptions"</span>,</div>
+              <div>&nbsp;&nbsp;<span class="t-key">content</span>: <span class="t-str">"video · audio · text"</span>,</div>
+              <div>&nbsp;&nbsp;<span class="t-key">live</span>: <span class="t-str">"events + streaming"</span>,</div>
+              <div>&nbsp;&nbsp;<span class="t-key">users</span>: <span class="t-num">4200</span>,</div>
+              <div>&nbsp;&nbsp;<span class="t-key">uptime</span>: <span class="t-str">"99.9%"</span>,</div>
+              <div>};</div>
+              <div>&nbsp;</div>
+              <div><span class="t-comment">// currently available</span></div>
+              <div><span class="t-key">export default</span> <span class="t-val">platform</span>;<span class="t-cursor"></span></div>
+            </div>
+          </div>
+          <div class="hero-visual-tag">
+            <span class="mono">/01</span>
+            <span>מערכת בייצור</span>
+          </div>
+        </aside>
+      </div>
+      <div class="hero-marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>
+            <em>פלטפורמות תוכן</em><i>·</i>
+            <em>פורטלי לקוחות</em><i>·</i>
+            <em>מערכות מנויים</em><i>·</i>
+            <em>ניהול אירועים חיים</em><i>·</i>
+            <em>הרשאות ותפקידים</em><i>·</i>
+            <em>אינטגרציות API</em><i>·</i>
+          </span>
+          <span aria-hidden="true">
+            <em>פלטפורמות תוכן</em><i>·</i>
+            <em>פורטלי לקוחות</em><i>·</i>
+            <em>מערכות מנויים</em><i>·</i>
+            <em>ניהול אירועים חיים</em><i>·</i>
+            <em>הרשאות ותפקידים</em><i>·</i>
+            <em>אינטגרציות API</em><i>·</i>
+          </span>
+          <span aria-hidden="true">
+            <em>פלטפורמות תוכן</em><i>·</i>
+            <em>פורטלי לקוחות</em><i>·</i>
+            <em>מערכות מנויים</em><i>·</i>
+            <em>ניהול אירועים חיים</em><i>·</i>
+            <em>הרשאות ותפקידים</em><i>·</i>
+            <em>אינטגרציות API</em><i>·</i>
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
   <footer class="site-footer" id="siteFooter"></footer>
   <script>
     // Theme
