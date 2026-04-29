@@ -109,10 +109,183 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in oklch, var(--bg) 86%, transparent);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      gap: 32px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .brand-mark {
+      width: 14px; height: 14px;
+      border-radius: 2px;
+      background: var(--accent);
+      display: inline-block;
+    }
+    .brand-name {
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .site-nav a {
+      font-size: 15px;
+      color: var(--fg-2);
+      transition: color 0.2s var(--ease);
+      position: relative;
+    }
+    .site-nav a:hover { color: var(--fg); }
+    .site-nav a::after {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      bottom: -6px;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s var(--ease);
+    }
+    .site-nav a:hover::after { width: 100%; }
+    .nav-portal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--fg);
+      transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+    }
+    .nav-portal:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .nav-portal::after { display: none; }
+    .nav-portal-icon { font-family: var(--t-mono); font-size: 11px; }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px; height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--fg-2);
+      transition: all 0.25s var(--ease);
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .theme-toggle::after { display: none !important; }
+
+    .nav-toggle {
+      display: none;
+      width: 40px; height: 40px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--fg);
+    }
   </style>
 </head>
 <body>
-  <p style="color:white;padding:20px">shell</p>
-  <script>/* JS HERE */</script>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark"></span>
+        <span class="brand-name">HZ Labs</span>
+      </a>
+      <nav class="site-nav" id="siteNav" aria-label="ניווט ראשי">
+        <a href="#case">פרויקט</a>
+        <a href="#services">שירותים</a>
+        <a href="#about">אודות</a>
+        <a href="#contact">צור קשר</a>
+        <a href="/customers.html" class="nav-portal">
+          אזור לקוחות
+          <span class="nav-portal-icon" aria-hidden="true">↗</span>
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="החלף ערכת נושא">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="themeIcon">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="פתח תפריט" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <main id="mainContent"></main>
+  <footer class="site-footer" id="siteFooter"></footer>
+  <script>
+    // Theme
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const THEME_PAIR = { 'dark-ink': 'light-paper', 'light-paper': 'dark-ink' };
+    const SUN_PATH = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const MOON_PATH = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+    function applyTheme(theme) {
+      html.dataset.theme = theme;
+      localStorage.setItem('hzlabs-theme', theme);
+      const isDark = theme.startsWith('dark');
+      themeIcon.innerHTML = isDark ? SUN_PATH : MOON_PATH;
+      themeToggle.setAttribute('aria-label', isDark ? 'החלף למצב בהיר' : 'החלף למצב כהה');
+    }
+
+    applyTheme(localStorage.getItem('hzlabs-theme') || 'dark-ink');
+
+    themeToggle.addEventListener('click', () => {
+      applyTheme(THEME_PAIR[html.dataset.theme] || 'dark-ink');
+    });
+
+    // Mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const siteNav = document.getElementById('siteNav');
+    navToggle.addEventListener('click', () => {
+      const open = siteNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    siteNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
 </body>
 </html>
