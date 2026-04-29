@@ -688,6 +688,66 @@
     .cp-accent { color: var(--accent); }
     .cp-dim { color: var(--fg-3); }
     .cp-green { color: #a3be8c; }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    .services {
+      padding: var(--pad-section) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .service {
+      padding: 40px;
+      border-inline-start: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition: background 0.3s var(--ease);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 280px;
+    }
+    .service:nth-child(odd) { border-inline-start: 0; }
+    .service:nth-last-child(-n+2) { border-bottom: 0; }
+    .service:hover { background: var(--bg-2); }
+    .service-head {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .service-n { color: var(--accent); }
+    .service h3 {
+      font-size: clamp(24px, 2vw, 32px);
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .service p {
+      margin: 0;
+      color: var(--fg-2);
+      line-height: 1.55;
+      font-size: 16px;
+      flex: 1;
+      text-wrap: pretty;
+    }
+    .service-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+    .service-tags li {
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 11px;
+      color: var(--fg-2);
+    }
   </style>
 </head>
 <body>
@@ -910,6 +970,41 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-meta">
+            <span class="mono section-num">03</span>
+            <span class="mono section-kicker">— מה שאנחנו עושים</span>
+          </div>
+          <h2 class="section-title">ארבע קטגוריות. עומק בכל אחת.</h2>
+          <p class="section-lede">לא סוכנות שבונה הכל. סטודיו שמתמחה בארבעה תחומים, ויודע אותם לעומק — מהאפיון ועד הליווי בייצור.</p>
+        </header>
+        <ol class="services-grid">
+          <li class="service">
+            <div class="service-head"><span class="mono service-n">01</span><h3>פלטפורמות תוכן</h3></div>
+            <p>ספריות וידאו ושמע, מערכות חיפוש וקטלוג, ניהול עורכים. מותאם לקהל ולכמויות שלכם — לא Off-the-shelf.</p>
+            <ul class="service-tags"><li class="mono">CMS מותאם</li><li class="mono">סטרימינג</li><li class="mono">חיפוש</li></ul>
+          </li>
+          <li class="service">
+            <div class="service-head"><span class="mono service-n">02</span><h3>פורטלי לקוחות ומנויים</h3></div>
+            <p>אזורים אישיים מאובטחים, ניהול תפקידים, חשבוניות ומסמכים. הלקוחות שלכם נכנסים, רואים בדיוק מה שצריך, ולא יותר.</p>
+            <ul class="service-tags"><li class="mono">Auth</li><li class="mono">תפקידים</li><li class="mono">Self-service</li></ul>
+          </li>
+          <li class="service">
+            <div class="service-head"><span class="mono service-n">03</span><h3>ניהול אירועים חיים</h3></div>
+            <p>שידורים, מפגשים, סדנאות — עם לוח זמנים, הרשמה, התראות וצפייה ישירה. נבדק מול עומס אמיתי.</p>
+            <ul class="service-tags"><li class="mono">Live</li><li class="mono">RSVP</li><li class="mono">התראות</li></ul>
+          </li>
+          <li class="service">
+            <div class="service-head"><span class="mono service-n">04</span><h3>אינטגרציות וצנרת נתונים</h3></div>
+            <p>חיבור בין המערכות שכבר יש לכם — סליקה, CRM, מייל, אנליטיקס. בלי דאטה שיוצא ושוקע במקומות לא ברורים.</p>
+            <ul class="service-tags"><li class="mono">API</li><li class="mono">Webhooks</li><li class="mono">ETL</li></ul>
+          </li>
+        </ol>
       </div>
     </section>
   </main>
