@@ -1,20 +1,32 @@
 # HZ Labs
 
-> סטודיו פיתוח לבניית פלטפורמות תוכן, פורטלי לקוחות ומערכות מנויים — תל אביב, ישראל.
+> סטודיו פיתוח לבניית פלטפורמות תוכן, אינטגרציות AI ואוטומציות לארגונים — תל אביב, ישראל.
 
 HZ Labs is a boutique software development studio based in Tel Aviv, Israel.
-We design and build complex digital platforms for organizations and businesses:
-content platforms, subscription systems, event management, unified admin dashboards,
-and API integrations. Small team, personal approach, production-grade results.
+We design and build complex digital platforms and AI-powered automation systems
+for organizations and businesses. Small team, personal approach, production-grade results.
 
 ## Services
 
+### AI Integration & Automation
+- AI automation workflows — intelligent pipelines that detect, classify, and act without manual intervention
+- Reasoning agents — LLM-based decision engines that replace repetitive human judgment
+- Smart analytics — dashboards that surface real-time insights from organizational data
+- AI integrations with existing systems — CRM, email, forms, databases, APIs
+
+### Platform Development
 - Full-stack web platform development (design → production)
 - Content & media platforms with video streaming, live events, and tiered access
-- Unified management dashboards connecting CRM, events, content, and payments
 - Customer portals and subscription systems
+- Event management and membership systems
 - API integrations between existing tools and systems
 - Ongoing development support and iteration
+
+## Who We Work With
+
+Organizations and businesses that want to reduce manual work, move faster, and scale
+without adding headcount. We work directly with founders and team leads — no layers,
+no handoffs.
 
 ## Contact
 
@@ -24,4 +36,5 @@ and API integrations. Small team, personal approach, production-grade results.
 
 ## Technology
 
-TypeScript, React, Node.js, Docker, nginx, REST & GraphQL APIs, Auth systems, CMS integrations.
+TypeScript, React, Node.js, Docker, nginx, LLMs (Claude, GPT), AI agents,
+REST & GraphQL APIs, Auth systems, CMS integrations, Analytics pipelines.
