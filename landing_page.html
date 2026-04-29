@@ -839,6 +839,123 @@
     .hz-geo-corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
     .hz-geo-corner.bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
     .hz-geo-corner.br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact {
+      padding: var(--pad-section) 0;
+      background: var(--bg);
+    }
+    .contact-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .contact-num {
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+    .contact-title {
+      font-size: clamp(48px, 7vw, 112px);
+      font-weight: 800;
+      line-height: 0.98;
+      letter-spacing: -0.025em;
+      margin: 0 0 24px;
+    }
+    .contact-title-accent {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    .contact-sub {
+      max-width: 52ch;
+      color: var(--fg-2);
+      font-size: clamp(16px, 1.2vw, 19px);
+      line-height: 1.55;
+      margin: 0 0 56px;
+    }
+    .contact-mail {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 36px;
+      border: 1px solid var(--line);
+      font-size: clamp(20px, 2vw, 28px);
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      margin-bottom: 64px;
+      transition: all 0.3s var(--ease);
+    }
+    .contact-mail:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .contact-mail .mono { color: var(--accent); font-size: 18px; }
+    .contact-mail-addr { font-family: var(--t-mono); font-size: 0.85em; letter-spacing: 0; }
+
+    .contact-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      width: 100%;
+      max-width: 760px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .contact-meta > div {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: start;
+    }
+    .contact-meta strong { font-weight: 500; font-size: 15px; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+      padding: 56px 0 40px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--fg-3);
+    }
+    .footer-nav {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-nav a {
+      font-size: 14px;
+      color: var(--fg-2);
+      transition: color 0.2s var(--ease);
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .footer-legal {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: end;
+      font-size: 13px;
+      color: var(--fg-3);
+    }
   </style>
 </head>
 <body>
@@ -1145,8 +1262,47 @@
         </div>
       </div>
     </section>
+
+    <section class="contact" id="contact">
+      <div class="container contact-inner">
+        <span class="mono contact-num">05 — צור קשר</span>
+        <h2 class="contact-title">
+          יש לכם פרויקט.
+          <br>
+          <span class="contact-title-accent">בואו נדבר עליו.</span>
+        </h2>
+        <p class="contact-sub">תיאור קצר של מה שאתם רוצים לבנות, ומי הקהל. נחזור אליכם תוך יום עבודה עם שאלות ראשונות.</p>
+        <a href="mailto:harzahav.labs@gmail.com?subject=פרויקט חדש — HZ Labs" class="contact-mail">
+          <span class="mono">→</span>
+          <span class="contact-mail-addr">harzahav.labs@gmail.com</span>
+        </a>
+        <div class="contact-meta">
+          <div><span class="mono">זמינות</span><strong>פרויקטים חדשים · 2026</strong></div>
+          <div><span class="mono">איפה</span><strong>תל אביב · עובדים מרחוק</strong></div>
+          <div><span class="mono">תגובה</span><strong>תוך יום עבודה</strong></div>
+        </div>
+      </div>
+    </section>
   </main>
-  <footer class="site-footer" id="siteFooter"></footer>
+  <footer class="site-footer" id="siteFooter">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">HZ Labs</span>
+        <span class="footer-tagline">סטודיו פיתוח · מערכות בקנה מידה אנושי</span>
+      </div>
+      <nav class="footer-nav" aria-label="קישורים בתחתית">
+        <a href="#case">פרויקט</a>
+        <a href="#services">שירותים</a>
+        <a href="#about">אודות</a>
+        <a href="mailto:harzahav.labs@gmail.com">מייל</a>
+        <a href="/customers.html">אזור לקוחות</a>
+      </nav>
+      <div class="footer-legal">
+        <span class="mono">© 2026 HZ LABS</span>
+        <span>כל הזכויות שמורות.</span>
+      </div>
+    </div>
+  </footer>
   <script>
     // Theme
     const html = document.documentElement;
