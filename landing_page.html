@@ -956,6 +956,52 @@
       font-size: 13px;
       color: var(--fg-3);
     }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 960px) {
+      .site-nav {
+        position: absolute;
+        top: 76px;
+        inset-inline: 0;
+        flex-direction: column;
+        background: var(--bg-2);
+        border-bottom: 1px solid var(--line);
+        padding: 24px var(--pad-x);
+        gap: 20px;
+        align-items: flex-start;
+        transform: translateY(-12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s var(--ease);
+      }
+      .site-nav.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .nav-toggle { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .hero-meta { grid-template-columns: 1fr; gap: 14px; }
+      .section-header { grid-template-columns: 1fr; gap: 16px; }
+      .section-lede { grid-column: 1 / 2; }
+      .case-body { grid-template-columns: 1fr; }
+      .case-side { position: static; }
+      .case-stills { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service { border-inline-start: 0 !important; }
+      .service:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .service:last-child { border-bottom: 0; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-side .placeholder { position: static; max-width: 360px; }
+      .about-pillars { grid-template-columns: 1fr; gap: 24px; }
+      .contact-meta { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .footer-legal { text-align: start; }
+      .footer-nav { justify-content: flex-start; }
+    }
   </style>
 </head>
 <body>
@@ -1339,6 +1385,27 @@
         navToggle.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // Scroll reveal
+    const revealSections = document.querySelectorAll('.case, .services, .about, .contact');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      revealSections.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(32px)';
+        el.style.transition = 'opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1)';
+        revealObserver.observe(el);
+      });
+    }
   </script>
 </body>
 </html>
