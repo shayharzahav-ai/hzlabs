@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HZ Labs — סטודיו פיתוח · מערכות בקנה מידה אנושי</title>
   <meta name="description" content="HZ Labs — סטודיו פיתוח לבניית פלטפורמות תוכן, פורטלי לקוחות ומערכות מנויים. מהאפיון ועד הייצור, עם דגש על נגישות, ביצועים ויחס אנושי.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23D49A3E'/%3E%3Cline x1='8' y1='9' x2='8' y2='23' stroke='%230E0E0E' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='8' y1='16' x2='14' y2='16' stroke='%230E0E0E' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='14' y1='9' x2='14' y2='23' stroke='%230E0E0E' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpolyline points='18%2C9 26%2C9 18%2C23 26%2C23' stroke='%230E0E0E' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -750,6 +751,130 @@
     }
 
     /* ============================================================
+       INTEGRATION
+    ============================================================ */
+    .integration {
+      padding: var(--pad-section) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .dash-mockup {
+      margin: 48px 0;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .dash-mock-bar {
+      background: var(--bg-3);
+      border-bottom: 1px solid var(--line);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 44px;
+    }
+    .dash-mock-brand {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dash-mock-badge {
+      font-family: var(--t-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in oklch, var(--accent) 28%, transparent);
+    }
+    .dash-mock-tabs { display: flex; }
+    .dash-mock-tab {
+      font-size: 13px;
+      color: var(--fg-3);
+      padding: 12px 14px;
+      border-bottom: 2px solid transparent;
+    }
+    .dash-mock-tab.active { color: var(--fg); border-bottom-color: var(--accent); }
+    .dash-mock-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .dash-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .dash-stat {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 16px;
+    }
+    .dash-stat-val {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .dash-stat-lbl {
+      font-family: var(--t-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .dash-module-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .dash-module {
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 14px 16px;
+    }
+    .dash-module-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .dash-module-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .dash-module-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 13px;
+      color: var(--fg-2);
+      border-bottom: 1px solid color-mix(in oklch, var(--line) 40%, transparent);
+    }
+    .dash-module-row:last-child { border-bottom: 0; }
+    .dash-tag {
+      font-family: var(--t-mono);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .dash-tag-on  { background: var(--accent-soft); color: var(--accent); border: 1px solid color-mix(in oklch, var(--accent) 28%, transparent); }
+    .dash-tag-off { background: color-mix(in oklch, var(--fg-3) 10%, transparent); color: var(--fg-3); border: 1px solid color-mix(in oklch, var(--fg-3) 18%, transparent); }
+    .dash-val { font-weight: 700; color: var(--accent); font-size: 13px; }
+
+    /* ============================================================
        ABOUT
     ============================================================ */
     .about {
@@ -994,6 +1119,9 @@
       .service { border-inline-start: 0 !important; }
       .service:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
       .service:last-child { border-bottom: 0; }
+      .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-module-grid { grid-template-columns: 1fr; }
+      .dash-mock-tabs { display: none; }
       .about-grid { grid-template-columns: 1fr; }
       .about-side .placeholder { position: static; max-width: 360px; }
       .about-pillars { grid-template-columns: 1fr; gap: 24px; }
@@ -1222,6 +1350,118 @@
       </div>
     </section>
 
+    <section class="integration" id="integration">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-meta">
+            <span class="mono section-num">03</span>
+          </div>
+          <h2 class="section-title">כל המערכות. ממשק אחד.</h2>
+          <p class="section-lede">פלטפורמת הניהול הפנימית שבנינו לשותפים למסע: ממשק יחיד שמחבר ניהול אירועים, תוכן, חברות ותרומות — ומאפשר לצוות קטן לנהל עמותה בקנה מידה גדול, בלי לקפוץ בין כלים.</p>
+        </header>
+
+        <div class="dash-mockup">
+          <div class="dash-mock-bar">
+            <div class="dash-mock-brand">
+              שותפים למסע
+              <span class="dash-mock-badge">Admin</span>
+            </div>
+            <div class="dash-mock-tabs">
+              <span class="dash-mock-tab active">ראשי</span>
+              <span class="dash-mock-tab">אירועים</span>
+              <span class="dash-mock-tab">תוכן</span>
+              <span class="dash-mock-tab">חברות</span>
+            </div>
+          </div>
+          <div class="dash-mock-body">
+            <div class="dash-stat-grid">
+              <div class="dash-stat">
+                <span class="dash-stat-val">4,200</span>
+                <span class="dash-stat-lbl">חברים רשומים</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-stat-val">847</span>
+                <span class="dash-stat-lbl">פריטי תוכן</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-stat-val">38</span>
+                <span class="dash-stat-lbl">אירועים פעילים</span>
+              </div>
+              <div class="dash-stat">
+                <span class="dash-stat-val">94%</span>
+                <span class="dash-stat-lbl">נוכחות ממוצעת</span>
+              </div>
+            </div>
+            <div class="dash-module-grid">
+              <div class="dash-module">
+                <div class="dash-module-head">
+                  <span class="mono">אירועים</span>
+                  <span class="dash-module-dot"></span>
+                </div>
+                <div class="dash-module-row">
+                  <span>כנס שנתי 2026</span>
+                  <span class="dash-tag dash-tag-on">פעיל</span>
+                </div>
+                <div class="dash-module-row">
+                  <span>סדנת אבל — יוני</span>
+                  <span class="dash-tag dash-tag-off">ממתין</span>
+                </div>
+                <div class="dash-module-row">
+                  <span>מפגש חודשי קבוע</span>
+                  <span class="dash-tag dash-tag-on">פתוח</span>
+                </div>
+              </div>
+              <div class="dash-module">
+                <div class="dash-module-head">
+                  <span class="mono">חברות ותרומות</span>
+                  <span class="dash-module-dot"></span>
+                </div>
+                <div class="dash-module-row">
+                  <span>חברים חדשים (30 יום)</span>
+                  <span class="dash-val">+127</span>
+                </div>
+                <div class="dash-module-row">
+                  <span>תרומות החודש</span>
+                  <span class="dash-val">₪18,400</span>
+                </div>
+                <div class="dash-module-row">
+                  <span>מנויים פעילים</span>
+                  <span class="dash-val">2,841</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-body">
+          <div class="case-side">
+            <div class="kv"><span class="mono">לקוח</span><strong>שותפים למסע (ע״ר)</strong></div>
+            <div class="kv"><span class="mono">סוג</span><strong>מערכת ניהול פנימית</strong></div>
+            <div class="kv"><span class="mono">סטאק</span><strong>Dashboard · API · CRM · Analytics</strong></div>
+          </div>
+          <div class="case-main">
+            <div class="case-block">
+              <h3>האתגר</h3>
+              <p>הנהלת העמותה עבדה עם כמה כלים נפרדים — כל אחד מנהל תחום אחר. לא הייתה תמונה כוללת, וכל שינוי דרש עדכון במקומות מרובים.</p>
+            </div>
+            <div class="case-block">
+              <h3>מה בנינו</h3>
+              <ul class="case-list">
+                <li><span class="mono">01</span> ממשק ניהול אחוד שמחבר בין כל המערכות הקיימות</li>
+                <li><span class="mono">02</span> לוח בקרה עם מדדים חיים — חברות, אירועים, תוכן, תרומות</li>
+                <li><span class="mono">03</span> ניהול הרשאות לצוות — תפקידים ורמות גישה</li>
+                <li><span class="mono">04</span> אוטומציות: תזכורות, עדכוני סטטוס, דוחות שבועיים</li>
+              </ul>
+            </div>
+            <div class="case-block">
+              <h3>תוצאה</h3>
+              <p>הצוות מנהל את כל פעילות העמותה ממסך אחד. פחות קפיצות בין כלים, פחות פערי מידע בין מחלקות, יותר זמן לעבודה האמיתית.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="about" id="about">
       <div class="container about-grid">
         <div class="about-side">
@@ -1250,7 +1490,7 @@
         <div class="about-main">
           <header class="section-header">
             <div class="section-meta">
-              <span class="mono section-num">03</span>
+              <span class="mono section-num">04</span>
               <span class="mono section-kicker">— אודות</span>
             </div>
             <h2 class="section-title">צוות קטן. תוצרים בקנה מידה גדול.</h2>
@@ -1346,7 +1586,7 @@
     });
 
     // Scroll reveal
-    const revealSections = document.querySelectorAll('.case, .about, .contact');
+    const revealSections = document.querySelectorAll('.case, .integration, .about, .contact');
     if ('IntersectionObserver' in window) {
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
