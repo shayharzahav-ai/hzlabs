@@ -285,6 +285,11 @@
     }
     .theme-toggle::after { display: none !important; }
 
+    /* Mobile-only always-visible portal shortcut */
+    .mob-portal {
+      display: none;
+    }
+
     .nav-toggle {
       display: none;
       width: 40px; height: 40px;
@@ -1194,6 +1199,23 @@
         pointer-events: auto;
       }
       .nav-toggle { display: flex; }
+      .mob-portal {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        font-size: 13px;
+        font-family: var(--t-mono);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-soft);
+        white-space: nowrap;
+        transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+      }
+      .mob-portal:hover { background: color-mix(in oklch, var(--accent) 28%, transparent); }
       .hero-grid { grid-template-columns: 1fr; }
       .hero-visual { order: -1; }
       /* Fix terminal bar: RTL flex reverses dot order — force LTR for chrome bar */
@@ -1280,6 +1302,10 @@
           </svg>
         </button>
       </nav>
+      <a href="/customers.html" class="mob-portal" aria-label="כניסה לאזור הלקוחות">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        אזור לקוחות
+      </a>
       <button class="nav-toggle" id="navToggle" aria-label="פתח תפריט" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
