@@ -436,12 +436,17 @@
       line-height: 1.75;
       direction: ltr;
       text-align: left;
+      height: 290px;
+      overflow: hidden;
     }
     .t-comment { color: var(--fg-3); }
-    .t-key { color: var(--accent); }
-    .t-val { color: var(--fg-2); }
-    .t-str { color: #a3be8c; }
-    .t-num { color: #b48ead; }
+    .t-key     { color: var(--accent); }
+    .t-val     { color: var(--fg-2); }
+    .t-str     { color: #a3be8c; }
+    .t-num     { color: #b48ead; }
+    .t-prompt  { color: var(--accent); }
+    .t-cmd     { color: var(--fg); }
+    .t-ok      { color: #a3be8c; }
     .t-cursor {
       display: inline-block;
       width: 8px; height: 15px;
@@ -1191,22 +1196,9 @@
               <span class="t-dot t-dot-r"></span>
               <span class="t-dot t-dot-y"></span>
               <span class="t-dot t-dot-g"></span>
-              <span class="terminal-title">hz-labs / architecture.ts</span>
+              <span class="terminal-title" id="terminalTitle">hz-labs / architecture.ts</span>
             </div>
-            <div class="terminal-body">
-              <div><span class="t-comment">// HZ Labs — platform stack</span></div>
-              <div>&nbsp;</div>
-              <div><span class="t-key">const</span> <span class="t-val">platform</span> = {</div>
-              <div>&nbsp;&nbsp;<span class="t-key">auth</span>: <span class="t-str">"roles + subscriptions"</span>,</div>
-              <div>&nbsp;&nbsp;<span class="t-key">content</span>: <span class="t-str">"video · audio · text"</span>,</div>
-              <div>&nbsp;&nbsp;<span class="t-key">live</span>: <span class="t-str">"events + streaming"</span>,</div>
-              <div>&nbsp;&nbsp;<span class="t-key">users</span>: <span class="t-num">4200</span>,</div>
-              <div>&nbsp;&nbsp;<span class="t-key">uptime</span>: <span class="t-str">"99.9%"</span>,</div>
-              <div>};</div>
-              <div>&nbsp;</div>
-              <div><span class="t-comment">// currently available</span></div>
-              <div><span class="t-key">export default</span> <span class="t-val">platform</span>;<span class="t-cursor"></span></div>
-            </div>
+            <div class="terminal-body" id="terminalBody"></div>
           </div>
           <div class="hero-visual-tag">
             <span class="mono">/01</span>
@@ -1549,6 +1541,130 @@
     </div>
   </footer>
   <script>
+    // Terminal typewriter
+    (function() {
+      const body = document.getElementById('terminalBody');
+      const titleEl = document.getElementById('terminalTitle');
+      if (!body || !titleEl) return;
+
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+
+      const PHASES = [
+        {
+          title: 'hz-labs / architecture.ts',
+          ms: 22,
+          lines: [
+            [['// HZ Labs — platform stack','t-comment']],
+            null,
+            [['const ','t-key'],['platform','t-val'],[' = {','']],
+            [['  auth','t-key'],[': ',''],['"roles + subscriptions"','t-str'],[',','']],
+            [['  content','t-key'],[': ',''],['"video · audio · text"','t-str'],[',','']],
+            [['  live','t-key'],[': ',''],['true','t-num'],[',','']],
+            [['  users','t-key'],[': ',''],['4_200','t-num'],[',','']],
+            [['  uptime','t-key'],[': ',''],['"99.9%"','t-str'],[',','']],
+            [['};','']],
+            null,
+            [['export default ','t-key'],['platform','t-val'],[';','']],
+          ]
+        },
+        {
+          title: 'hz-labs / terminal',
+          ms: 26,
+          lines: [
+            null,
+            [['$ ','t-prompt'],['npx tsc --noEmit','t-cmd']],
+            [['✓ no errors','t-ok']],
+            null,
+            [['$ ','t-prompt'],['git push origin main','t-cmd']],
+            [['✓ pushed 1 commit','t-ok']],
+            null,
+            [['$ ','t-prompt'],['docker build -t hz-labs .','t-cmd']],
+            [['✓ built · 3.8s','t-ok']],
+            null,
+            [['✓ ','t-ok'],['live · harzahav.online','t-str']],
+          ]
+        }
+      ];
+
+      async function run() {
+        while (true) {
+          body.innerHTML = '';
+          body.style.opacity = '1';
+          titleEl.style.opacity = '1';
+
+          for (let pi = 0; pi < PHASES.length; pi++) {
+            const { title, ms, lines } = PHASES[pi];
+
+            // Fade title on phase switch
+            if (pi > 0) {
+              titleEl.style.transition = 'opacity 0.3s';
+              titleEl.style.opacity = '0';
+              await wait(300);
+              titleEl.textContent = title;
+              titleEl.style.opacity = '1';
+              await wait(200);
+            } else {
+              titleEl.textContent = title;
+            }
+
+            for (const line of lines) {
+              const div = document.createElement('div');
+              body.appendChild(div);
+
+              if (line === null) {
+                div.textContent = ' ';
+                body.scrollTop = body.scrollHeight;
+                await wait(50);
+                continue;
+              }
+
+              // Cursor lives in this div while typing
+              const cur = document.createElement('span');
+              cur.className = 't-cursor';
+              div.appendChild(cur);
+
+              for (const [text, cls] of line) {
+                const span = document.createElement('span');
+                if (cls) span.className = cls;
+                div.insertBefore(span, cur);
+                for (const ch of text) {
+                  span.textContent += ch;
+                  body.scrollTop = body.scrollHeight;
+                  await wait(ms);
+                }
+              }
+
+              cur.remove();
+              body.scrollTop = body.scrollHeight;
+              await wait(65);
+            }
+
+            if (pi < PHASES.length - 1) await wait(500);
+          }
+
+          // Cursor blinks on last line after done
+          const lastDiv = body.lastElementChild;
+          const endCur = document.createElement('span');
+          endCur.className = 't-cursor';
+          lastDiv.appendChild(endCur);
+
+          await wait(2800);
+
+          // Fade out and restart
+          body.style.transition = 'opacity 0.45s';
+          titleEl.style.transition = 'opacity 0.45s';
+          body.style.opacity = '0';
+          titleEl.style.opacity = '0';
+          await wait(450);
+          body.style.transition = '';
+          titleEl.style.transition = '';
+          titleEl.textContent = PHASES[0].title;
+        }
+      }
+
+      run();
+    })();
+
     // Theme
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
