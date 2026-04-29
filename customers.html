@@ -303,7 +303,10 @@
       align-items: center;
       justify-content: center;
       color: var(--fg-3);
+      cursor: pointer;
+      z-index: 2;
       transition: color 0.2s var(--ease);
+      -webkit-tap-highlight-color: transparent;
     }
     .pw-toggle:hover { color: var(--fg-2); }
     .pw-toggle svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
@@ -809,6 +812,13 @@
       }
     });
 
+    // DOM refs — must be declared before showDashboard() is called
+    const loginForm = document.getElementById('loginForm');
+    const loginCard = document.getElementById('loginCard');
+    const dashboard = document.getElementById('dashboard');
+    const errorMsg = document.getElementById('errorMsg');
+    const errorText = document.getElementById('errorText');
+
     // Check existing session
     const sessionCustomer = sessionStorage.getItem('hzlabs-customer');
     if (sessionCustomer) {
@@ -820,11 +830,6 @@
     }
 
     // Login
-    const loginForm = document.getElementById('loginForm');
-    const loginCard = document.getElementById('loginCard');
-    const dashboard = document.getElementById('dashboard');
-    const errorMsg = document.getElementById('errorMsg');
-    const errorText = document.getElementById('errorText');
 
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -863,7 +868,16 @@
         avatar.classList.remove('has-logo');
       }
 
-      document.getElementById('docSite').href = data.siteUrl;
+      const hasSite = data.siteUrl && data.siteUrl !== '#';
+      const docSite = document.getElementById('docSite');
+      docSite.href = hasSite ? data.siteUrl : '#';
+      docSite.style.display = hasSite ? 'flex' : 'none';
+      document.querySelector('.preview-wrap').style.display = hasSite ? 'block' : 'none';
+      if (hasSite) {
+        document.getElementById('previewFrame').src = data.siteUrl;
+        document.getElementById('previewLink').href = data.siteUrl;
+        document.getElementById('previewUrlText').textContent = data.siteUrl;
+      }
       const docSite2 = document.getElementById('docSite2');
       if (data.siteUrl2) {
         docSite2.href = data.siteUrl2;
@@ -875,9 +889,6 @@
       }
       document.getElementById('docProposal').href = data.proposalUrl;
       document.getElementById('docAppendix').href = data.appendixUrl;
-      document.getElementById('previewFrame').src = data.siteUrl;
-      document.getElementById('previewLink').href = data.siteUrl;
-      document.getElementById('previewUrlText').textContent = data.siteUrl;
     }
 
     // Password visibility toggle
