@@ -109,54 +109,19 @@
       --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
     }
 
-    /* ---- DARK THEMES ---- */
+    /* ---- THEMES ---- */
     [data-theme="dark-ink"] {
       --bg: #0E0E0E; --bg-2: #161616; --bg-3: #1B1B1B;
       --line: #262626;
       --fg: #F4EFE7; --fg-2: #C8C2B5; --fg-3: #8C8679;
       --shadow-mix: #000;
     }
-    [data-theme="dark-aubergine"] {
-      --bg: #15101A; --bg-2: #1D1626; --bg-3: #241B30;
-      --line: #2C2438;
-      --fg: #F2EBE0; --fg-2: #C7BEB1; --fg-3: #897F73;
-      --shadow-mix: #000;
-    }
-    [data-theme="dark-forest"] {
-      --bg: #0F1512; --bg-2: #161E1A; --bg-3: #1C2622;
-      --line: #232E29;
-      --fg: #ECEDE3; --fg-2: #BFC3B4; --fg-3: #828776;
-      --shadow-mix: #000;
-    }
-    [data-theme="dark-night"] {
-      --bg: #0B0F14; --bg-2: #11161D; --bg-3: #161D27;
-      --line: #1F2733;
-      --fg: #E8EEF5; --fg-2: #B5BDC8; --fg-3: #7B8492;
-      --shadow-mix: #000;
-    }
-
-    /* ---- LIGHT THEMES ---- */
     [data-theme="light-paper"] {
       --bg: #F4EFE7; --bg-2: #EBE5DA; --bg-3: #E2DBCC;
       --line: #D6CFBE;
       --fg: #1A1714; --fg-2: #4A4640; --fg-3: #7A7468;
       --shadow-mix: #877a5e;
     }
-    [data-theme="light-bone"] {
-      --bg: #FAFAF7; --bg-2: #F1F1EC; --bg-3: #E7E7E0;
-      --line: #DCDCD3;
-      --fg: #111111; --fg-2: #444; --fg-3: #777;
-      --shadow-mix: #777;
-    }
-    [data-theme="light-sand"] {
-      --bg: #EDE6D6; --bg-2: #E4DCC8; --bg-3: #DBD2BB;
-      --line: #CCC2A8;
-      --fg: #1F1A12; --fg-2: #4D4636; --fg-3: #807760;
-      --shadow-mix: #6e5a32;
-    }
-
-    [data-density="compact"] { --pad-section: 96px; }
-    [data-density="spacious"] { --pad-section: 192px; }
 
     /* === BASE RESET === */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -299,12 +264,24 @@
       justify-content: center;
       align-items: center;
       gap: 5px;
+      position: relative;
     }
     .nav-toggle span {
       display: block;
       width: 22px;
       height: 1.5px;
       background: var(--fg);
+      transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+    }
+    /* Hamburger → X animation */
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
     }
 
     /* ============================================================
@@ -1607,6 +1584,22 @@
         }
       ];
 
+      // Visibility-aware animation: skip ahead when tab is hidden
+      let hiddenTime = 0;
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          hiddenTime = Date.now();
+        }
+      });
+      function visWait(ms) {
+        // If tab was hidden for more than 2s, resolve immediately
+        if (!document.hidden && hiddenTime && (Date.now() - hiddenTime > 2000)) {
+          hiddenTime = 0;
+          return Promise.resolve();
+        }
+        return wait(ms);
+      }
+
       async function run() {
         while (true) {
           body.innerHTML = '';
@@ -1620,10 +1613,10 @@
             if (pi > 0) {
               titleEl.style.transition = 'opacity 0.3s';
               titleEl.style.opacity = '0';
-              await wait(300);
+              await visWait(300);
               titleEl.textContent = title;
               titleEl.style.opacity = '1';
-              await wait(200);
+              await visWait(200);
             } else {
               titleEl.textContent = title;
             }
@@ -1633,9 +1626,9 @@
               body.appendChild(div);
 
               if (line === null) {
-                div.textContent = ' ';
+                div.textContent = '\u00a0';
                 body.scrollTop = body.scrollHeight;
-                await wait(50);
+                await visWait(50);
                 continue;
               }
 
@@ -1651,16 +1644,16 @@
                 for (const ch of text) {
                   span.textContent += ch;
                   body.scrollTop = body.scrollHeight;
-                  await wait(ms);
+                  await visWait(ms);
                 }
               }
 
               cur.remove();
               body.scrollTop = body.scrollHeight;
-              await wait(65);
+              await visWait(65);
             }
 
-            if (pi < PHASES.length - 1) await wait(500);
+            if (pi < PHASES.length - 1) await visWait(500);
           }
 
           // Cursor blinks on last line after done
@@ -1669,14 +1662,14 @@
           endCur.className = 't-cursor';
           lastDiv.appendChild(endCur);
 
-          await wait(2800);
+          await visWait(2800);
 
           // Fade out and restart
           body.style.transition = 'opacity 0.45s';
           titleEl.style.transition = 'opacity 0.45s';
           body.style.opacity = '0';
           titleEl.style.opacity = '0';
-          await wait(450);
+          await visWait(450);
           body.style.transition = '';
           titleEl.style.transition = '';
           titleEl.textContent = PHASES[0].title;
@@ -1720,6 +1713,22 @@
         siteNav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
       });
+    });
+    // Close nav on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && siteNav.classList.contains('open')) {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    // Close nav when clicking outside
+    document.addEventListener('click', (e) => {
+      if (siteNav.classList.contains('open') && 
+          !siteNav.contains(e.target) && 
+          !navToggle.contains(e.target)) {
+        siteNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
     });
 
     // Scroll reveal
