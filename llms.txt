@@ -31,7 +31,7 @@ no handoffs.
 ## Contact
 
 - Website: https://harzahav.online
-- Email: contact@hzlabs.io
+- Email: labs@har-zahav.com
 - Location: Tel Aviv, Israel
 
 ## Technology

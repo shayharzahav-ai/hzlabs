@@ -29,7 +29,7 @@ Accent color palette (cyan/teal family):
 - Dark mode primary: `#22d3ee`
 - Gradient: `135deg, #22d3ee → #06b6d4 → #0891b2`
 
-Contact email: `contact@hzlabs.io`
+Contact email: `labs@har-zahav.com`
 
 ## Deployment
 
