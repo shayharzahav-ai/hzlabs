@@ -1,8 +1,8 @@
 # HZ Labs
 
-> סטודיו פיתוח לבניית פלטפורמות תוכן, אינטגרציות AI ואוטומציות לארגונים — תל אביב, ישראל.
+> סטודיו פיתוח לבניית פלטפורמות תוכן, אינטגרציות AI ואוטומציות לארגונים — ישראל.
 
-HZ Labs is a boutique software development studio based in Tel Aviv, Israel.
+HZ Labs is a boutique software development studio based in Israel.
 We design and build complex digital platforms and AI-powered automation systems
 for organizations and businesses. Small team, personal approach, production-grade results.
 
@@ -22,6 +22,21 @@ for organizations and businesses. Small team, personal approach, production-grad
 - API integrations between existing tools and systems
 - Ongoing development support and iteration
 
+## Pricing
+
+| Service | Price |
+|---------|-------|
+| Project (custom quote) | Per project |
+| Monthly Partnership | From ₪12,000/month |
+| AI Consulting | ₪500/hour |
+
+## Process
+
+1. Discovery call — understand the organization, audience, and problem
+2. Proposal & spec — define scope, technology, timeline, and budget
+3. Transparent development — weekly updates, staging access, flexible changes
+4. Launch & support — handover, training, documentation, ongoing technical support
+
 ## Who We Work With
 
 Organizations and businesses that want to reduce manual work, move faster, and scale
@@ -31,8 +46,10 @@ no handoffs.
 ## Contact
 
 - Website: https://harzahav.online
+- Portfolio: https://harzahav.online/work.html
 - Email: labs@har-zahav.com
-- Location: Tel Aviv, Israel
+- Location: Remote / Israel
+- Response time: Within 1 business day
 
 ## Technology
 
