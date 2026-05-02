@@ -1153,6 +1153,275 @@
     }
 
     /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+    .testimonials {
+      padding: var(--pad-section) 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-2);
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .testimonial {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+    }
+    .testimonial p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--fg);
+      text-wrap: pretty;
+      flex: 1;
+    }
+    .testimonial footer {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .testimonial footer strong {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--fg);
+    }
+    .testimonial footer span {
+      font-size: 13px;
+      color: var(--fg-3);
+    }
+
+    /* ============================================================
+       PROCESS
+    ============================================================ */
+    .process {
+      padding: var(--pad-section) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 32px 0;
+      border-top: 1px solid var(--accent);
+    }
+    .step-num {
+      color: var(--accent);
+      font-size: 13px;
+    }
+    .step h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .step p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--fg-2);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       SERVICES / PRICING
+    ============================================================ */
+    .services-pricing {
+      padding: var(--pad-section) 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-2);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .pricing-card {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 40px 32px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--t-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      background: var(--accent);
+      color: #0E0E0E;
+      border-radius: 0 0 4px 4px;
+      font-weight: 600;
+    }
+    .pricing-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .pricing-tier {
+      color: var(--accent);
+      font-size: 11px;
+    }
+    .pricing-price {
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .pricing-desc {
+      margin: 0;
+      font-size: 15px;
+      color: var(--fg-2);
+      line-height: 1.55;
+    }
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      flex: 1;
+    }
+    .pricing-features li {
+      font-size: 14px;
+      color: var(--fg-2);
+      padding-right: 20px;
+      position: relative;
+    }
+    .pricing-features li::before {
+      content: "✓";
+      position: absolute;
+      right: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .pricing-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: var(--accent);
+      color: #0E0E0E;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 2px;
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+      margin-top: auto;
+    }
+    .pricing-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ============================================================
+       CONTACT FORM
+    ============================================================ */
+    .contact-form {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-label {
+      font-family: var(--t-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .form-input, .form-select {
+      padding: 14px 16px;
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--fg);
+      font-family: var(--t-sans);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--accent);
+      background: var(--bg-3);
+    }
+    .form-input::placeholder { color: var(--fg-3); }
+    textarea.form-input { resize: vertical; min-height: 120px; }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C8679' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 12px center;
+      background-size: 15px;
+      padding-left: 36px;
+    }
+    .form-select option { background: var(--bg-3); color: var(--fg); }
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: var(--accent);
+      color: #0E0E0E;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 2px;
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+      margin-top: 8px;
+    }
+    .form-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: color-mix(in oklch, var(--accent) 12%, transparent);
+      border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+      border-radius: 2px;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .form-success.show { display: flex; }
+
+    /* ============================================================
        RESPONSIVE
     ============================================================ */
     @media (max-width: 960px) {
@@ -1221,6 +1490,10 @@
       .about-side .hz-geo { aspect-ratio: unset; height: 260px; }
       .about-pillars { grid-template-columns: 1fr; gap: 24px; }
       .contact-meta { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; gap: 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; gap: 24px; }
       .footer-legal { text-align: start; }
       .footer-nav { justify-content: flex-start; }
@@ -1267,9 +1540,10 @@
         <span class="brand-name">HZ Labs</span>
       </a>
       <nav class="site-nav" id="siteNav" aria-label="ניווט ראשי">
-        <a href="#integration">פלטפורמות</a>
-        <a href="#about">אודות</a>
-        <a href="#contact">צור קשר</a>
+            <a href="/work.html">פרויקטים</a>
+            <a href="#integration">פלטפורמות</a>
+            <a href="#about">אודות</a>
+            <a href="#contact">צור קשר</a>
         <a href="/customers.html" class="nav-portal">
           אזור לקוחות
           <span class="nav-portal-icon" aria-hidden="true">↗</span>
@@ -1299,10 +1573,10 @@
             סטודיו פיתוח · ת״א
           </div>
           <h1 class="hero-title">
-            <span class="hero-title-line" style="animation-delay:100ms">טכנולוגיה,</span>
-            <span class="hero-title-line" style="animation-delay:190ms">בקנה מידה אנושי.</span>
+            <span class="hero-title-line" style="animation-delay:100ms">בונים פלטפורמות,</span>
+            <span class="hero-title-line" style="animation-delay:190ms">מטמיעים AI.</span>
           </h1>
-          <p class="hero-sub">פלטפורמות מורכבות ואינטגרציות AI — גישה אישית, אפיון, פיתוח וליווי שוטף תחת קורת גג אחת.</p>
+          <p class="hero-sub">פיתוח מלא — מאפיון ועד ייצור. פלטפורמות תוכן, אוטומציות חכמות, ואינטגרציות AI שמפנות את הצוות למה שחשוב.</p>
           <div class="hero-actions">
             <a href="#integration" class="btn btn-primary">
               מה אנחנו בונים
@@ -1519,6 +1793,199 @@
         </div>
       </div>
     </section>
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-meta">
+            <span class="mono section-num">05</span>
+            <span class="mono section-kicker">— לקוחות מספרים</span>
+          </div>
+          <h2 class="section-title">מה אומרים עלינו.</h2>
+        </header>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial">
+            <p>"HZ Labs בנו לנו פלטפורמה שחסכה לנו שעות של עבודה ידנית כל שבוע. התהליך היה שקוף, התקשורת מעולה, והתוצאה מדויקת בדיוק לצרכים שלנו."</p>
+            <footer>
+              <strong>רוני כהן</strong>
+              <span>מייסד, חוכמת ההזדקנות</span>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>"הצוות של HZ Labs לא רק בנה את המערכת — הם חשבו איתנו על כל פיצ'ר, כל זרימה, וכל נקודת חיכוך אפשרית. זה הרגיש כמו שותפות אמיתית."</p>
+            <footer>
+              <strong>צוות תעצומות</strong>
+              <span>מנהלי קהילה ותוכן</span>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>"הפלטפורמה שבנו לנו מאפשרת לנו להגיע למאות מדריכים ותלמידים בצורה מסודרת ונגישה. הליווי הטכני השוטף נותן לנו שקט נפשי."</p>
+            <footer>
+              <strong>המרכז לחינוך קשוב ואכפתי</strong>
+              <span>צוות הדרכה</span>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-meta">
+            <span class="mono section-num">06</span>
+            <span class="mono section-kicker">— איך עובדים איתנו</span>
+          </div>
+          <h2 class="section-title">מתהליך ברור לתוצאה מדויקת.</h2>
+        </header>
+        <div class="process-steps">
+          <div class="step">
+            <span class="step-num mono">01</span>
+            <h3>שיחת גילוי</h3>
+            <p>מכירים את הארגון, הקהל, והבעיה. מבינים מה כבר קיים ומה צריך לבנות.</p>
+          </div>
+          <div class="step">
+            <span class="step-num mono">02</span>
+            <h3>הצעת מחיר ואפיון</h3>
+            <p>מגדירים יחד את היקף הפרויקט, הטכנולוגיה, לוח הזמנים, והתקציב.</p>
+          </div>
+          <div class="step">
+            <span class="step-num mono">03</span>
+            <h3>פיתוח שקוף</h3>
+            <p>עדכונים שבועיים, גישה לסביבת פיתוח, ושינויים גמישים תוך כדי תנועה.</p>
+          </div>
+          <div class="step">
+            <span class="step-num mono">04</span>
+            <h3>שקה וליווי</h3>
+            <p>העברה מסודרת, הדרכה, תיעוד — ותמיכה טכנית שוטפת אחרי השקה.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES / PRICING -->
+    <section class="services-pricing" id="services">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-meta">
+            <span class="mono section-num">07</span>
+            <span class="mono section-kicker">— שירותים ומחירים</span>
+          </div>
+          <h2 class="section-title">בחרו את מה שמתאים לכם.</h2>
+          <p class="section-lede">מפרויקטים חד-פעמיים ועד שותפות ארוכת טווח — אנחנו מתאימים את המודל לצרכים שלכם.</p>
+        </header>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <span class="mono pricing-tier">פרויקט</span>
+              <span class="pricing-price">הצעת מחיר אישית</span>
+            </div>
+            <p class="pricing-desc">פיתוח מלא של פלטפורמה או מערכת — מאפיון ועד ייצור, כולל שקה והדרכה.</p>
+            <ul class="pricing-features">
+              <li>אפיון מעמיק ותיעוד טכני</li>
+              <li>פיתוח full-stack</li>
+              <li>בדיקות QA</li>
+              <li>שקה והדרכה</li>
+              <li>30 יום תמיכה</li>
+            </ul>
+            <a href="#contact" class="pricing-cta">בקשו הצעת מחיר</a>
+          </div>
+          <div class="pricing-card featured">
+            <div class="pricing-badge">הכי פופולרי</div>
+            <div class="pricing-header">
+              <span class="mono pricing-tier">שותפות חודשית</span>
+              <span class="pricing-price">החל מ-₪12,000 / חודש</span>
+            </div>
+            <p class="pricing-desc">ליווי טכני שוטף — פיתוח, תחזוקה, שיפורים, ותמיכה בתשתית קיימת או חדשה.</p>
+            <ul class="pricing-features">
+              <li>כל מה שבפרויקט, פלוס:</li>
+              <li>פיתוח שוטף ושיפורים</li>
+              <li>תחזוקה ועדכונים</li>
+              <li>תמיכה טכנית prioritised</li>
+              <li>דוחות חודשיים</li>
+            </ul>
+            <a href="#contact" class="pricing-cta">בואו נדבר</a>
+          </div>
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <span class="mono pricing-tier">ייעוץ AI</span>
+              <span class="pricing-price">₪2,500 / שעה</span>
+            </div>
+            <p class="pricing-desc">סקירת תהליכים קיימים, זיהוי הזדמנויות לאוטומציה, ותכנית יישום מעשית.</p>
+            <ul class="pricing-features">
+              <li>סקירת מערכות קיימות</li>
+              <li>זיהוי הזדמנויות AI</li>
+              <li>תכנית יישום מעשית</li>
+              <li>מסמך המלצות</li>
+            </ul>
+            <a href="#contact" class="pricing-cta">תאמו ייעוץ</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="contact" id="contact">
+      <div class="container contact-inner">
+        <span class="mono contact-num">08 — צור קשר</span>
+        <h2 class="contact-title">
+          יש לכם פרויקט.
+          <br>
+          <span class="contact-title-accent">בואו נדבר עליו.</span>
+        </h2>
+        <p class="contact-sub">מלאו את הטופס ונחזור אליכם תוך יום עבודה עם שאלות ראשונות והצעה להמשך.</p>
+
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/xnqevwdr" method="POST">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="contactName">שם</label>
+              <input type="text" class="form-input" id="contactName" name="name" placeholder="השם שלכם" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="contactOrg">ארגון</label>
+              <input type="text" class="form-input" id="contactOrg" name="organization" placeholder="שם הארגון או העסק">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="contactEmail">אימייל</label>
+              <input type="email" class="form-input" id="contactEmail" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="contactBudget">תקציב משוער</label>
+              <select class="form-select" id="contactBudget" name="budget">
+                <option value="" disabled selected>בחרו תקציב...</option>
+                <option value="under-50k">עד ₪50,000</option>
+                <option value="50k-150k">₪50,000 – ₪150,000</option>
+                <option value="150k-300k">₪150,000 – ₪300,000</option>
+                <option value="over-300k">מעל ₪300,000</option>
+                <option value="monthly">שותפות חודשית</option>
+                <option value="unknown">עדיין לא יודעים</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="contactMessage">תיאור הפרויקט</label>
+            <textarea class="form-input" id="contactMessage" name="message" rows="5" placeholder="ספרו לנו בקצרה על הפרויקט — מה הבעיה, מי הקהל, ומה כבר ניסיתם." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <span class="mono">→</span>
+            שליחה
+          </button>
+          <div class="form-success" id="formSuccess">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ההודעה נשלחה! נחזור אליכם תוך יום עבודה.
+          </div>
+        </form>
+
+        <div class="contact-meta">
+          <div><span class="mono">זמינות</span><strong>פרויקטים חדשים · 2026</strong></div>
+          <div><span class="mono">איפה</span><strong>תל אביב · עובדים מרחוק</strong></div>
+          <div><span class="mono">תגובה</span><strong>תוך יום עבודה</strong></div>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="site-footer" id="siteFooter">
     <div class="container footer-inner">
@@ -1529,6 +1996,7 @@
       <nav class="footer-nav" aria-label="קישורים בתחתית">
         <a href="#integration">פלטפורמות</a>
         <a href="#about">אודות</a>
+        <a href="/work.html">פרויקטים</a>
         <a href="mailto:labs@har-zahav.com">מייל</a>
         <a href="/customers.html">אזור לקוחות</a>
       </nav>
@@ -1731,8 +2199,40 @@
       }
     });
 
+    // Contact form
+    const contactForm = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('.form-submit');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="mono">...</span> שולח';
+        btn.disabled = true;
+        try {
+          const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (response.ok) {
+            contactForm.reset();
+            formSuccess.classList.add('show');
+            setTimeout(() => formSuccess.classList.remove('show'), 6000);
+          } else {
+            alert('משהו השתבש. נסו שוב או שלחו מייל ישירות ל labs@har-zahav.com');
+          }
+        } catch (err) {
+          alert('בעיית רשת. נסו שוב או שלחו מייל ישירות ל labs@har-zahav.com');
+        } finally {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      });
+    }
+
     // Scroll reveal
-    const revealSections = document.querySelectorAll('.integration, .about, .contact');
+    const revealSections = document.querySelectorAll('.integration, .about, .contact, .testimonials, .process, .services-pricing');
     if ('IntersectionObserver' in window) {
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
