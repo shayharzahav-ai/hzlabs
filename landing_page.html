@@ -2211,10 +2211,15 @@
         btn.disabled = true;
 
         try {
+          const formData = new FormData(contactForm);
+          const params = new URLSearchParams();
+          for (const [key, value] of formData) {
+            params.append(key, value);
+          }
           const response = await fetch(contactForm.action, {
             method: 'POST',
-            body: new FormData(contactForm),
-            headers: { 'Accept': 'application/json' }
+            body: params,
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }
           });
           if (response.ok) {
             contactForm.reset();
