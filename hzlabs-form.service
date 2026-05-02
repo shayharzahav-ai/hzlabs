@@ -1,0 +1,19 @@
+[Unit]
+Description=HZ Labs Contact Form Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/hzlabs
+ExecStart=/usr/bin/node /opt/hzlabs/server.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=SMTP_HOST=mail.har-zahav.com
+Environment=SMTP_PORT=587
+Environment=SMTP_USER=labs@har-zahav.com
+Environment=SMTP_PASS=
+
+[Install]
+WantedBy=multi-user.target

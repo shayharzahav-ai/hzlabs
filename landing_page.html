@@ -1936,7 +1936,7 @@
         </h2>
         <p class="contact-sub">מלאו את הטופס ונחזור אליכם תוך יום עבודה עם שאלות ראשונות והצעה להמשך.</p>
 
-        <form class="contact-form" id="contactForm" action="mailto:labs@har-zahav.com" method="POST" enctype="text/plain">
+        <form class="contact-form" id="contactForm" action="/api/contact" method="POST">
           <div class="form-row">
             <div class="form-field">
               <label class="form-label" for="contactName">שם</label>
@@ -2199,41 +2199,36 @@
       }
     });
 
-    // Contact form — sends via mailto with formatted body
+    // Contact form — sends via AJAX to Node.js backend
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
     if (contactForm) {
-      contactForm.addEventListener('submit', (e) => {
+      contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = contactForm.querySelector('.form-submit');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<span class="mono">...</span> פותח מייל';
+        btn.innerHTML = '<span class="mono">...</span> שולח';
         btn.disabled = true;
 
-        const fd = new FormData(contactForm);
-        const name = fd.get('name') || '';
-        const org = fd.get('organization') || '';
-        const email = fd.get('email') || '';
-        const budget = fd.get('budget') || '';
-        const message = fd.get('message') || '';
-
-        const subject = encodeURIComponent('פנייה חדשה מהאתר — ' + name + (org ? ' (' + org + ')' : ''));
-        const body = encodeURIComponent(
-          'שם: ' + name + '\n' +
-          'ארגון: ' + (org || '—') + '\n' +
-          'אימייל: ' + email + '\n' +
-          'תקציב: ' + (budget || '—') + '\n\n' +
-          'תיאור הפרויקט:\n' + message
-        );
-
-        window.location.href = 'mailto:labs@har-zahav.com?subject=' + subject + '&body=' + body;
-
-        contactForm.reset();
-        formSuccess.classList.add('show');
-        setTimeout(() => formSuccess.classList.remove('show'), 6000);
-
-        btn.innerHTML = originalText;
-        btn.disabled = false;
+        try {
+          const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (response.ok) {
+            contactForm.reset();
+            formSuccess.classList.add('show');
+            setTimeout(() => formSuccess.classList.remove('show'), 6000);
+          } else {
+            alert('משהו השתבש. נסו שוב או שלחו מייל ישירות ל labs@har-zahav.com');
+          }
+        } catch (err) {
+          alert('בעיית רשת. נסו שוב או שלחו מייל ישירות ל labs@har-zahav.com');
+        } finally {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
       });
     }
 
