@@ -148,8 +148,19 @@ function verifyJWT(token) {
   const parts = token.split('.');
   if (parts.length !== 3) return null;
   const [header, body, sig] = parts;
+  
+  try {
+    // Reject "none" algorithm explicitly
+    const headerObj = JSON.parse(Buffer.from(header.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
+    if (headerObj.alg === 'none') return null;
+  } catch { /* ignore invalid header */ }
+  
   const expected = crypto.createHmac('sha256', JWT_SECRET).update(header + '.' + body).digest('base64url');
-  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
+  const sigBuf = Buffer.from(sig);
+  const expectedBuf = Buffer.from(expected);
+  if (sigBuf.length !== expectedBuf.length) return null;
+  if (!crypto.timingSafeEqual(sigBuf, expectedBuf)) return null;
+  
   try {
     const payload = JSON.parse(Buffer.from(body.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
     if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
