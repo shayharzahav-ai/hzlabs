@@ -1,19 +1,26 @@
 [Unit]
-Description=HZ Labs Contact Form Server
+Description=HZ Labs Secure Server
 After=network.target
 
 [Service]
 Type=simple
-User=root
+User=hzlabs
+Group=hzlabs
 WorkingDirectory=/opt/hzlabs
 ExecStart=/usr/bin/node /opt/hzlabs/server.js
 Restart=always
 RestartSec=5
 Environment=NODE_ENV=production
-Environment=SMTP_HOST=mail.har-zahav.com
-Environment=SMTP_PORT=587
+Environment=PORT=3002
+Environment=SMTP_HOST=smtppro.zoho.com
+Environment=SMTP_PORT=465
 Environment=SMTP_USER=labs@har-zahav.com
-Environment=SMTP_PASS=
+# SMTP_PASS MUST be provided via override or env file
+Environment=JWT_SECRET=REPLACE_WITH_GENERATED_SECRET
+Environment=AUTH_PEPPER=REPLACE_WITH_GENERATED_SECRET
+
+# Load additional env vars from a secured file
+EnvironmentFile=-/opt/hzlabs/.env
 
 [Install]
 WantedBy=multi-user.target

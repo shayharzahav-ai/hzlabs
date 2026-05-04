@@ -763,78 +763,70 @@
       applyTheme(THEME_PAIR[html.dataset.theme] || 'dark-ink');
     });
 
-    // Customer data
-    // SECURITY NOTE: This is client-side demo authentication only.
-    // Passwords are visible in source code and should NOT be considered secure.
-    // For production, implement server-side authentication.
-    const customers = {
-      educare: {
-        name: 'המרכז לחינוך קשוב ואכפתי',
-        password: 'educare1234',
-        siteUrl: 'https://harzahav.online/Educare.html',
-        proposalUrl: 'educare-proposal-short.pdf',
-        appendixUrl: 'educare-proposal-full.pdf',
-        logoUrl: 'logo-L.avif'
-      },
-      taatzumot: {
-        name: 'תעצומות',
-        password: 'taatzumot1234',
-        siteUrl: 'https://harzahav.online/tahatzomot.html',
-        proposalUrl: 'taatzumot-proposal-short.pdf',
-        appendixUrl: 'taatzumot-proposal-full.pdf',
-        logoUrl: 'tahatzomot.avif'
-      },
-      shutafimlamasa: {
-        name: 'שותפים למסע',
-        password: 'shutafimlamasa1234!',
-        siteUrl: 'https://shutafimlamasa.online',
-        siteUrl2: 'https://shutafimlamasa.cloud',
-        proposalUrl: '#',
-        appendixUrl: '#'
-      },
-      hokhmat: {
-        name: 'חוכמת ההזדקנות',
-        password: 'roni1234',
-        siteUrl: '#',
-        proposalUrl: 'hokhmat-hazdaknut-proposal.pdf',
-        appendixUrl: 'hokhmat-hazdaknut-proposal-full.pdf'
-      }
+    // Customer data — no passwords in client
+    const CUSTOMER_META = {
+      educare: { name: 'המרכז לחינוך קשוב ואכפתי', logoUrl: 'logo-L.avif' },
+      taatzumot: { name: 'תעצומות', logoUrl: 'tahatzomot.avif' },
+      shutafimlamasa: { name: 'שותפים למסע', logoUrl: '' },
+      hokhmat: { name: 'חוכמת ההזדקנות', logoUrl: '' }
     };
+
+    // API helpers
+    const API_BASE = '/api';
+    async function apiPost(path, body) {
+      const r = await fetch(`${API_BASE}${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await r.json().catch(() => ({}));
+      return { ok: r.ok, status: r.status, data };
+    }
+    async function apiGet(path) {
+      const token = sessionStorage.getItem('hzlabs-token');
+      const r = await fetch(`${API_BASE}${path}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+      });
+      const data = await r.json().catch(() => ({}));
+      return { ok: r.ok, status: r.status, data };
+    }
 
     // Logo preview on customer select
     document.getElementById('customerSelect').addEventListener('change', (e) => {
       const preview = document.getElementById('loginLogoPreview');
       const img = document.getElementById('loginLogoImg');
-      const data = customers[e.target.value];
-      if (data && data.logoUrl) {
-        img.src = data.logoUrl;
-        img.alt = data.name;
+      const meta = CUSTOMER_META[e.target.value];
+      if (meta && meta.logoUrl) {
+        img.src = meta.logoUrl;
+        img.alt = meta.name;
         preview.classList.add('show');
       } else {
         preview.classList.remove('show');
       }
     });
 
-    // DOM refs — must be declared before showDashboard() is called
+    // DOM refs
     const loginForm = document.getElementById('loginForm');
     const loginCard = document.getElementById('loginCard');
     const dashboard = document.getElementById('dashboard');
     const errorMsg = document.getElementById('errorMsg');
     const errorText = document.getElementById('errorText');
 
-    // Check existing session
-    const sessionCustomer = sessionStorage.getItem('hzlabs-customer');
-    if (sessionCustomer) {
-      if (customers[sessionCustomer]) {
-        showDashboard(sessionCustomer);
-      } else {
-        sessionStorage.removeItem('hzlabs-customer');
+    // Session check
+    (async function initSession() {
+      const token = sessionStorage.getItem('hzlabs-token');
+      if (token) {
+        const r = await apiGet('/auth/me');
+        if (r.ok && r.data.customer) {
+          showDashboard(r.data.customer);
+        } else {
+          sessionStorage.removeItem('hzlabs-token');
+        }
       }
-    }
+    })();
 
     // Login
-
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const customer = document.getElementById('customerSelect').value;
       const password = document.getElementById('passwordInput').value;
@@ -843,24 +835,22 @@
         errorMsg.classList.add('show');
         return;
       }
-      if (customers[customer] && customers[customer].password === password) {
-        sessionStorage.setItem('hzlabs-customer', customer);
-        errorMsg.classList.remove('show');
-        showDashboard(customer);
+      errorMsg.classList.remove('show');
+      const r = await apiPost('/auth/login', { customer, password });
+      if (r.ok && r.data.token) {
+        sessionStorage.setItem('hzlabs-token', r.data.token);
+        document.getElementById('passwordInput').value = '';
+        showDashboard(r.data.customer);
       } else {
-        errorText.textContent = 'סיסמה שגויה. נסו שוב.';
-        errorMsg.classList.remove('show');
-        void errorMsg.offsetWidth;
+        errorText.textContent = r.data.error || 'סיסמה שגויה. נסו שוב.';
         errorMsg.classList.add('show');
         document.getElementById('passwordInput').value = '';
       }
     });
 
-    function showDashboard(customerKey) {
-      const data = customers[customerKey];
+    function showDashboard(data) {
       loginCard.style.display = 'none';
       dashboard.classList.add('show');
-
       document.getElementById('customerName').textContent = data.name;
       const avatar = document.getElementById('customerAvatar');
       if (data.logoUrl) {
@@ -870,7 +860,6 @@
         avatar.textContent = data.name[0].toUpperCase();
         avatar.classList.remove('has-logo');
       }
-
       const hasSite = data.siteUrl && data.siteUrl !== '#';
       const docSite = document.getElementById('docSite');
       docSite.href = hasSite ? data.siteUrl : '#';
@@ -909,7 +898,7 @@
 
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
-      sessionStorage.removeItem('hzlabs-customer');
+      sessionStorage.removeItem('hzlabs-token');
       dashboard.classList.remove('show');
       loginCard.style.display = '';
       loginCard.style.animation = 'none';

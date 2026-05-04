@@ -2212,14 +2212,11 @@
 
         try {
           const formData = new FormData(contactForm);
-          const params = new URLSearchParams();
-          for (const [key, value] of formData) {
-            params.append(key, value);
-          }
+          const data = Object.fromEntries(formData);
           const response = await fetch(contactForm.action, {
             method: 'POST',
-            body: params,
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }
+            body: JSON.stringify(data),
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
           });
           if (response.ok) {
             contactForm.reset();
