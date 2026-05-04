@@ -26,7 +26,7 @@ if (!AUTH_PEPPER || AUTH_PEPPER.length < 32) {
 // ── Customer credentials (PBKDF2-HMAC-SHA256, 100k iterations) ─────
 const CUSTOMERS = {
   educare: {
-    hash: 'MNNMjYjObRc2fkwUqHu+uH93w7v1A0dx1dBtRqCeVoU=',
+    hash: '4JEoApL8pJ7mZfA/OAjz0Z6nLROdUlxhdNlx7CosUI0=',
     name: 'המרכז לחינוך קשוב ואכפתי',
     siteUrl: 'https://harzahav.online/Educare.html',
     proposalUrl: 'educare-proposal-short.pdf',
@@ -34,7 +34,7 @@ const CUSTOMERS = {
     logoUrl: 'logo-L.avif',
   },
   taatzumot: {
-    hash: 'cZqDs4oNzxaSIHTRtCfjbqXEUAHNc0/UckYNG30CJsk=',
+    hash: 'z5+zylaTlciiy91S8jgTr+uqXoF4V3BA0BfqvxUjW68=',
     name: 'תעצומות',
     siteUrl: 'https://harzahav.online/tahatzomot.html',
     proposalUrl: 'taatzumot-proposal-short.pdf',
@@ -42,7 +42,7 @@ const CUSTOMERS = {
     logoUrl: 'tahatzomot.avif',
   },
   shutafimlamasa: {
-    hash: 'uiA3ZJGDqolkH5BkaZm5TfvY80MYXFgniABfk0n09xQ=',
+    hash: 'aUz7E7liE/arfnFNp8hrD8GI+4DR7jIdRlyP2qQ6rbA=',
     name: 'שותפים למסע',
     siteUrl: 'https://shutafimlamasa.online',
     siteUrl2: 'https://shutafimlamasa.cloud',
@@ -50,7 +50,7 @@ const CUSTOMERS = {
     appendixUrl: '#',
   },
   hokhmat: {
-    hash: 'KOFE1l302xlbT0VVeZs4XrOy1II/ZsFRB8tmFdNyOzg=',
+    hash: 'fBj6/0Uu6lj8N7QYohNP7+0J9GP3mLh+I8ubJ/W/QvY=',
     name: 'חוכמת ההזדקנות',
     siteUrl: '#',
     proposalUrl: 'hokhmat-hazdaknut-proposal.pdf',
