@@ -13,7 +13,9 @@
     /* ═══════════════════════════════════════════════════════════════
        PI.DEV-INSPIRED TERMINAL AESTHETIC
        ═══════════════════════════════════════════════════════════════ */
-    :root {
+
+    /* ── DARK MODE (default) ── */
+    :root, [data-theme="dark"] {
       --bg-primary:   #1e1e2e;
       --bg-secondary: #2d2d30;
       --bg-tertiary:  #181825;
@@ -31,6 +33,30 @@
       --error:        #ff4444;
       --border:       #3a3a4a;
       --border-dim:   #2a2a3a;
+    }
+
+    /* ── LIGHT MODE ── */
+    [data-theme="light"] {
+      --bg-primary:   #f5f5f7;
+      --bg-secondary: #ffffff;
+      --bg-tertiary:  #e8e8ec;
+      --bg-terminal:  #f0f0f4;
+      --accent:       #0066cc;
+      --accent-bright:#0088ff;
+      --accent-soft:  rgba(0,102,204,0.08);
+      --accent-glow:  rgba(0,102,204,0.15);
+      --fg:           #1a1a2e;
+      --fg-secondary: #4a4a5a;
+      --fg-tertiary:  #7a7a8a;
+      --fg-dim:       #a0a0b0;
+      --success:      #00aa00;
+      --warning:      #cc8800;
+      --error:        #cc3333;
+      --border:       #d0d0d8;
+      --border-dim:   #e0e0e6;
+    }
+
+    :root {
       --font-sans:    "Heebo", system-ui, -apple-system, sans-serif;
       --font-mono:    "JetBrains Mono", ui-monospace, "Fira Code", monospace;
       --space-xs: 4px; --space-sm: 8px; --space-md: 16px;
@@ -155,6 +181,16 @@
     .nav-cta:hover {
       background: var(--accent); color: var(--bg-primary);
       box-shadow: var(--glow-sm); text-shadow: none;
+    }
+    .theme-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--fg-secondary); background: transparent;
+      cursor: pointer; transition: var(--transition);
+    }
+    .theme-toggle:hover {
+      color: var(--accent); border-color: var(--accent); background: var(--accent-soft);
     }
     .nav-toggle {
       display: none; width: 36px; height: 36px;
@@ -459,6 +495,12 @@
         <a href="/customers.html">לקוחות</a>
         <a href="mailto:labs@har-zahav.com">צור קשר</a>
         <a href="/customers.html" class="nav-cta">~/portal</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="החלף מצב תצוגה" title="החלף מצב תצוגה">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
       </nav>
       <button class="nav-toggle" aria-label="תפריט" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -754,6 +796,33 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // THEME TOGGLE
+    // ═══════════════════════════════════════════════════════════════
+    (function() {
+      const STORAGE_KEY = 'hzlabs-theme';
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'light' || saved === 'dark') {
+        root.setAttribute('data-theme', saved);
+      } else {
+        root.setAttribute('data-theme', 'dark');
+      }
+
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const current = root.getAttribute('data-theme') || 'dark';
+          const next = current === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          localStorage.setItem(STORAGE_KEY, next);
+        });
+      }
+    })();
+  </script>
 
 </body>
 </html>

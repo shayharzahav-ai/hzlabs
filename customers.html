@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl" data-theme="dark-ink">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,8 @@
     /* ═══════════════════════════════════════════════════════════════
        PI.DEV-INSPIRED TERMINAL AESTHETIC
        ═══════════════════════════════════════════════════════════════ */
-    :root {
+    /* ── DARK MODE (default) ── */
+    :root, [data-theme="dark"] {
       --bg-primary:   #1e1e2e;
       --bg-secondary: #2d2d30;
       --bg-tertiary:  #181825;
@@ -30,6 +31,30 @@
       --error:        #ff4444;
       --border:       #3a3a4a;
       --border-dim:   #2a2a3a;
+    }
+
+    /* ── LIGHT MODE ── */
+    [data-theme="light"] {
+      --bg-primary:   #f5f5f7;
+      --bg-secondary: #ffffff;
+      --bg-tertiary:  #e8e8ec;
+      --bg-terminal:  #f0f0f4;
+      --accent:       #0066cc;
+      --accent-bright:#0088ff;
+      --accent-soft:  rgba(0,102,204,0.08);
+      --accent-glow:  rgba(0,102,204,0.15);
+      --fg:           #1a1a2e;
+      --fg-secondary: #4a4a5a;
+      --fg-tertiary:  #7a7a8a;
+      --fg-dim:       #a0a0b0;
+      --success:      #00aa00;
+      --warning:      #cc8800;
+      --error:        #cc3333;
+      --border:       #d0d0d8;
+      --border-dim:   #e0e0e6;
+    }
+
+    :root {
       --font-sans:    "Heebo", system-ui, -apple-system, sans-serif;
       --font-mono:    "JetBrains Mono", ui-monospace, "Fira Code", monospace;
       --space-xs: 4px; --space-sm: 8px; --space-md: 16px;
@@ -114,6 +139,24 @@
       display: flex;
       align-items: center;
       gap: 20px;
+    }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--fg-secondary);
+      background: transparent;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
     .back-link {
       display: inline-flex;
@@ -771,25 +814,34 @@
   </footer>
 
   <script>
-    // Theme
+    // ═══════════════════════════════════════════════════════════════
+    // THEME TOGGLE
+    // ═══════════════════════════════════════════════════════════════
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
-    const THEME_PAIR = { 'dark-ink': 'light-paper', 'light-paper': 'dark-ink' };
+    const STORAGE_KEY = 'hzlabs-theme';
     const SUN_PATH = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
     const MOON_PATH = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 
     function applyTheme(theme) {
-      html.dataset.theme = theme;
-      localStorage.setItem('hzlabs-theme', theme);
-      const isDark = theme.startsWith('dark');
+      // Normalize legacy theme names
+      const normalized = theme === 'dark-ink' || theme === 'dark' ? 'dark' :
+                         theme === 'light-paper' || theme === 'light' ? 'light' : 'dark';
+      html.setAttribute('data-theme', normalized);
+      localStorage.setItem(STORAGE_KEY, normalized);
+      const isDark = normalized === 'dark';
       themeIcon.innerHTML = isDark ? SUN_PATH : MOON_PATH;
       themeToggle.setAttribute('aria-label', isDark ? 'החלף למצב בהיר' : 'החלף למצב כהה');
     }
 
-    applyTheme(localStorage.getItem('hzlabs-theme') || 'dark-ink');
+    // Load saved theme (handle legacy values)
+    const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
+    applyTheme(saved);
+
     themeToggle.addEventListener('click', () => {
-      applyTheme(THEME_PAIR[html.dataset.theme] || 'dark-ink');
+      const current = html.getAttribute('data-theme') || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
     // Customer data — no passwords in client
