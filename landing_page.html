@@ -502,6 +502,15 @@
 
     .hero-terminal .terminal {
       box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,170,255,0.08);
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-terminal .terminal-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -1322,12 +1331,13 @@
         if (type === 'command') {
           div.innerHTML = `<span class="prompt">$</span> <span class="command">${content}</span>`;
         } else if (type === 'success') {
-          div.innerHTML = `<span class="success">✓</span> ${content}`;
+          div.innerHTML = `<span class="success">✓</span> ${content.text || content}`;
         } else if (type === 'comment') {
-          div.innerHTML = `<span class="comment">${content}</span>`;
+          div.innerHTML = `<span class="comment">${content.text || content}</span>`;
         } else if (type === 'output') {
-          const accentSpan = content.accent ? `<span class="accent">${content.accent}</span>` : '';
-          div.innerHTML = `${content.text}${accentSpan}`;
+          const text = typeof content === 'string' ? content : content.text;
+          const accent = typeof content === 'object' && content.accent ? `<span class="accent">${content.accent}</span>` : '';
+          div.innerHTML = `${text}${accent}`;
         }
 
         return div;
