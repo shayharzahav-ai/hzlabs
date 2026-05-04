@@ -13,19 +13,18 @@ for i in range(0, h, 40):
 # Cyan accent line at bottom
 draw.rectangle([(0, h-4), (w, h)], fill='#8abeb7')
 
-# Use standard Noto Sans Hebrew (not condensed) for better readability
-font_title = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSansHebrew-Bold.ttf', 68)
-font_sub   = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSansHebrew-Bold.ttf', 36)
-font_small = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSansHebrew-Regular.ttf', 28)
-font_mono  = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 52)
+# Use Noto Sans (supports both Latin and Hebrew scripts natively)
+font_title = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf', 68)
+font_sub   = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf', 36)
+font_small = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf', 28)
 
-# HZ Labs in monospace (centered)
+# HZ Labs title
 hz_text = 'HZ Labs'
-bbox = draw.textbbox((0,0), hz_text, font=font_mono)
+bbox = draw.textbbox((0,0), hz_text, font=font_title)
 tw = bbox[2] - bbox[0]
-draw.text(((w-tw)//2, 120), hz_text, fill='#8abeb7', font=font_mono)
+draw.text(((w-tw)//2, 120), hz_text, fill='#8abeb7', font=font_title)
 
-# Hebrew tagline
+# Hebrew tagline (mixed Hebrew + English — Noto Sans handles both)
 tagline = 'סטודיו פיתוח Full-Stack ואינטגרציית AI'
 bbox = draw.textbbox((0,0), tagline, font=font_sub)
 tw = bbox[2] - bbox[0]
@@ -44,4 +43,4 @@ tw = bbox[2] - bbox[0]
 draw.text(((w-tw)//2, 380), cta, fill='#8abeb7', font=font_small)
 
 img.save('/home/shayh/shay/hzlabs/og-image.png')
-print('Generated Hebrew og-image.png (1200x630) with standard Noto Sans Hebrew')
+print('Generated og-image.png with Noto Sans (Hebrew + Latin support)')
