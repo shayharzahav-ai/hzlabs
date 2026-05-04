@@ -995,26 +995,11 @@
             <span class="terminal-dot red"></span>
             <span class="terminal-dot yellow"></span>
             <span class="terminal-dot green"></span>
-            <span class="terminal-title">hzlabs@dev:~</span>
+            <span class="terminal-title" id="terminalTitle">hzlabs@dev:~</span>
           </div>
-          <div class="terminal-body">
-            <div><span class="prompt">$</span> <span class="command">hzlabs init project</span></div>
-            <div class="output" style="margin-top:8px">
-              <span class="success">✓</span> Loading AI modules...<br>
-              <span class="success">✓</span> Connecting APIs...<br>
-              <span class="success">✓</span> Deploying to production...<br>
-              <span class="comment"># Ready in 3.2s</span>
-            </div>
-            <div style="margin-top:12px">
-              <span class="prompt">$</span> <span class="command">hzlabs status</span>
-            </div>
-            <div class="output" style="margin-top:8px">
-              Platform: <span class="success">Online</span><br>
-              Uptime: <span class="accent">99.9%</span><br>
-              Clients: <span class="accent">12</span> active<br>
-              Location: <span class="accent">Tel Aviv, IL</span>
-            </div>
-            <div style="margin-top:12px">
+          <div class="terminal-body" id="terminalBody">
+            <div id="terminalLines"></div>
+            <div style="margin-top:8px">
               <span class="prompt">$</span> <span class="cursor"></span>
             </div>
           </div>
@@ -1263,12 +1248,12 @@
     // ═══════════════════════════════════════════════════════════════
     // THEME TOGGLE
     // ═══════════════════════════════════════════════════════════════
+    // THEME TOGGLE
     (function() {
       const STORAGE_KEY = 'hzlabs-theme';
       const root = document.documentElement;
       const toggle = document.getElementById('themeToggle');
 
-      // Load saved theme or default to dark
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved === 'light' || saved === 'dark') {
         root.setAttribute('data-theme', saved);
@@ -1276,7 +1261,6 @@
         root.setAttribute('data-theme', 'dark');
       }
 
-      // Toggle handler
       if (toggle) {
         toggle.addEventListener('click', () => {
           const current = root.getAttribute('data-theme') || 'dark';
@@ -1285,6 +1269,127 @@
           localStorage.setItem(STORAGE_KEY, next);
         });
       }
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // DYNAMIC TERMINAL
+    (function() {
+      const terminalLines = document.getElementById('terminalLines');
+      const terminalTitle = document.getElementById('terminalTitle');
+      if (!terminalLines || !terminalTitle) return;
+
+      const commands = [
+        { cmd: 'hzlabs init project', delay: 400, response: [
+          { type: 'success', text: '✓ Loading AI modules...' },
+          { type: 'success', text: '✓ Connecting APIs...' },
+          { type: 'success', text: '✓ Deploying to production...' },
+          { type: 'comment', text: '# Ready in 3.2s' }
+        ]},
+        { cmd: 'hzlabs status', delay: 600, response: [
+          { type: 'output', text: 'Platform: ', accent: 'Online' },
+          { type: 'output', text: 'Uptime: ', accent: '99.9%' },
+          { type: 'output', text: 'Clients: ', accent: '12 active' },
+          { type: 'output', text: 'Location: ', accent: 'Tel Aviv, IL' }
+        ]},
+        { cmd: 'hzlabs services --list', delay: 500, response: [
+          { type: 'success', text: '✓ Full-Stack Development' },
+          { type: 'success', text: '✓ AI Integration' },
+          { type: 'success', text: '✓ Content Platforms' },
+          { type: 'success', text: '✓ Automation Pipelines' }
+        ]},
+        { cmd: 'hzlabs stack --show', delay: 700, response: [
+          { type: 'output', text: 'Backend: ', accent: 'Spring Boot · Node.js · Python' },
+          { type: 'output', text: 'Frontend: ', accent: 'React · Next.js · TypeScript' },
+          { type: 'output', text: 'Data: ', accent: 'PostgreSQL · MongoDB · Redis' },
+          { type: 'output', text: 'AI: ', accent: 'OpenAI · Anthropic · Ollama' }
+        ]}
+      ];
+
+      let cmdIndex = 0;
+      let isTyping = false;
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      function createLine(type, content) {
+        const div = document.createElement('div');
+        div.style.marginTop = '4px';
+        div.style.opacity = '0';
+        div.style.transform = 'translateY(4px)';
+        div.style.transition = 'all 0.3s ease';
+
+        if (type === 'command') {
+          div.innerHTML = `<span class="prompt">$</span> <span class="command">${content}</span>`;
+        } else if (type === 'success') {
+          div.innerHTML = `<span class="success">✓</span> ${content}`;
+        } else if (type === 'comment') {
+          div.innerHTML = `<span class="comment">${content}</span>`;
+        } else if (type === 'output') {
+          const accentSpan = content.accent ? `<span class="accent">${content.accent}</span>` : '';
+          div.innerHTML = `${content.text}${accentSpan}`;
+        }
+
+        return div;
+      }
+
+      async function typeCommand(text) {
+        isTyping = true;
+        const div = document.createElement('div');
+        div.style.marginTop = '8px';
+        terminalLines.appendChild(div);
+
+        const prompt = document.createElement('span');
+        prompt.className = 'prompt';
+        prompt.textContent = '$ ';
+        div.appendChild(prompt);
+
+        const cmd = document.createElement('span');
+        cmd.className = 'command';
+        div.appendChild(cmd);
+
+        for (let i = 0; i <= text.length; i++) {
+          cmd.textContent = text.substring(0, i);
+          await sleep(40 + Math.random() * 30);
+        }
+        isTyping = false;
+        return div;
+      }
+
+      async function runCycle() {
+        const batch = commands[cmdIndex];
+
+        // Update title
+        terminalTitle.textContent = `hzlabs@dev:~${batch.cmd.replace('hzlabs', '').replace(/\s+/g, '_')}`;
+
+        // Type command
+        await typeCommand(batch.cmd);
+        await sleep(200);
+
+        // Show responses
+        for (const line of batch.response) {
+          const lineDiv = createLine(line.type, line);
+          terminalLines.appendChild(lineDiv);
+          await sleep(50);
+          lineDiv.style.opacity = '1';
+          lineDiv.style.transform = 'translateY(0)';
+          await sleep(120);
+        }
+
+        // Pause before next
+        await sleep(2500);
+
+        // Clear old lines if too many
+        while (terminalLines.children.length > 14) {
+          terminalLines.removeChild(terminalLines.firstChild);
+        }
+
+        cmdIndex = (cmdIndex + 1) % commands.length;
+        runCycle();
+      }
+
+      // Start after a brief delay
+      setTimeout(runCycle, 800);
     })();
   </script>
 
