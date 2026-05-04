@@ -2,7 +2,7 @@ FROM node:20-alpine
 WORKDIR /app
 COPY package.json server.js ./
 RUN npm install --omit=dev && mkdir -p /usr/share/nginx/html
-COPY landing_page.html customers.html work.html hz_labs_logo_futuristic.svg shutafimlamasa-dashboard.webp streaming-platform.png og-image.png favicon-32x32.png favicon-16x16.png /usr/share/nginx/html/
+COPY landing_page.html customers.html work.html hz_labs_logo_futuristic.svg shutafimlamasa-og.png streaming-platform.png og-image.png favicon-32x32.png favicon-16x16.png /usr/share/nginx/html/
 COPY images/ /usr/share/nginx/html/images/
 COPY robots.txt sitemap.xml llms.txt /usr/share/nginx/html/
 EXPOSE 80
