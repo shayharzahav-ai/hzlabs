@@ -800,7 +800,6 @@
             <span id="previewUrlText">טוען...</span>
           </div>
         </div>
-        <iframe class="preview-frame" id="previewFrame" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" loading="lazy"></iframe>
         <div class="preview-footer">
           <a href="#" class="preview-open-link" id="previewLink" target="_blank">
             פתיחה בחלון חדש
@@ -950,7 +949,6 @@
       docSite.style.display = hasSite ? 'flex' : 'none';
       document.querySelector('.preview-wrap').style.display = hasSite ? 'block' : 'none';
       if (hasSite) {
-        document.getElementById('previewFrame').src = data.siteUrl;
         document.getElementById('previewLink').href = data.siteUrl;
         document.getElementById('previewUrlText').textContent = data.siteUrl;
       }
