@@ -3,6 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 const PORT = process.env.PORT || 3002;
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -188,83 +189,28 @@ function escapeHtml(text) {
     .replace(/'/g, '&#039;');
 }
 
-// ── Send email via raw SMTP ────────────────────────────────────────
+// ── Send email via nodemailer ──────────────────────────────────────
+const transporter = nodemailer.createTransport({
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465, // true for 465, false for 587
+  auth: {
+    user: SMTP_USER,
+    pass: SMTP_PASS,
+  },
+  tls: {
+    rejectUnauthorized: true,
+  },
+});
+
 async function sendEmail({ name, email, replyTo, subject, textBody, htmlBody }) {
-  return new Promise((resolve, reject) => {
-    const client = require('net').connect({ host: SMTP_HOST, port: SMTP_PORT });
-    let step = 0;
-    const base64 = (s) => Buffer.from(s).toString('base64');
-    const send = (cmd) => client.write(cmd + '\r\n');
-
-    client.on('connect', () => {
-      if (SMTP_PORT === 465) {
-        const tls = require('tls');
-        const secureClient = tls.connect({ socket: client, servername: SMTP_HOST, rejectUnauthorized: true });
-        handleSmtp(secureClient);
-      } else {
-        handleSmtp(client);
-      }
-    });
-
-    function handleSmtp(sock) {
-      sock.setEncoding('utf8');
-      const sendLine = (line) => sock.write(line + '\r\n');
-      const flushData = () => {
-        const mimeBoundary = '----HZLabsForm' + Date.now();
-        const data = [
-          'MIME-Version: 1.0',
-          `From: "HZ Labs Contact Form" <${SMTP_USER}>`,
-          `To: ${SMTP_USER}`,
-          `Reply-To: ${normalizeReplyTo(replyTo)}`,
-          `Subject: =?UTF-8?B?${base64(subject)}?=?`,
-          `Content-Type: multipart/alternative; boundary="${mimeBoundary}"`,
-          '',
-          `--${mimeBoundary}`,
-          'Content-Type: text/plain; charset=utf-8',
-          'Content-Transfer-Encoding: base64',
-          '',
-          base64(textBody),
-          '',
-          `--${mimeBoundary}`,
-          'Content-Type: text/html; charset=utf-8',
-          'Content-Transfer-Encoding: base64',
-          '',
-          base64(htmlBody),
-          '',
-          `--${mimeBoundary}--`,
-          '.',
-        ].join('\r\n');
-        sendLine(data);
-      };
-
-      sock.on('data', (chunk) => {
-        const code = chunk.trim().split(' ')[0];
-        if (['220', '250', '334', '235', '354'].includes(code)) {
-          step++;
-          if (step === 1) sendLine(`EHLO hzlabs`);
-          else if (step === 2) sendLine('STARTTLS');
-          else if (step === 3) {
-            const tls = require('tls');
-            const s = tls.connect({ socket: sock, servername: SMTP_HOST, rejectUnauthorized: true });
-            handleSmtp(s); // re-negotiate over TLS
-          }
-          else if (step === 4) sendLine(`AUTH LOGIN`);
-          else if (step === 5) sendLine(base64(SMTP_USER));
-          else if (step === 6) sendLine(base64(SMTP_PASS));
-          else if (step === 7) sendLine(`MAIL FROM:<${SMTP_USER}>`);
-          else if (step === 8) sendLine(`RCPT TO:<${SMTP_USER}>`);
-          else if (step === 9) sendLine('DATA');
-          else if (step === 10) { flushData(); }
-          else if (step === 11) { sendLine('QUIT'); sock.end(); resolve(true); }
-        } else if (code.startsWith('5') || code.startsWith('4')) {
-          sock.end();
-          reject(new Error(`SMTP error: ${chunk.trim()}`));
-        }
-      });
-
-      sock.on('error', reject);
-      sock.on('close', () => { if (step < 11) reject(new Error('SMTP closed prematurely')); });
-    }
+  await transporter.sendMail({
+    from: `"HZ Labs Contact Form" <${SMTP_USER}>`,
+    to: SMTP_USER,
+    replyTo: normalizeReplyTo(replyTo),
+    subject,
+    text: textBody,
+    html: htmlBody,
   });
 }
 

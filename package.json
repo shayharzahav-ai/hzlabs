@@ -1,0 +1,12 @@
+{
+  "name": "hzlabs-server",
+  "version": "2.0.0",
+  "description": "HZ Labs secure static + API server",
+  "main": "server.js",
+  "dependencies": {
+    "nodemailer": "^6.10.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
