@@ -840,7 +840,7 @@
     }
 
     // Load saved theme (handle legacy values)
-    const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
+    const saved = localStorage.getItem(STORAGE_KEY) || 'light';
     applyTheme(saved);
 
     themeToggle.addEventListener('click', () => {
