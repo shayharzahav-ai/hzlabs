@@ -1146,6 +1146,59 @@
   <!-- Google Search Console verification (DNS TXT also required) -->
   <meta name="google-site-verification" content="GSC_VERIFICATION_CODE" />
 
+  <!-- UTM acquisition source: first-touch attribution (HZL-19) -->
+  <script>
+    (function() {
+      var COOKIE_NAME = 'acquisition_source';
+      var COOKIE_TTL_DAYS = 90;
+      var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+      function readCookie(name) {
+        var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
+        if (!match) return null;
+        try { return JSON.parse(decodeURIComponent(match[1])); } catch (e) { return null; }
+      }
+
+      function writeCookie(name, value) {
+        var attrs = ['Max-Age=' + (COOKIE_TTL_DAYS * 86400), 'Path=/', 'SameSite=Lax'];
+        if (location.protocol === 'https:') attrs.push('Secure');
+        document.cookie = name + '=' + encodeURIComponent(JSON.stringify(value)) + '; ' + attrs.join('; ');
+      }
+
+      function parseUtmFromUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var captured = {};
+        var hasAny = false;
+        UTM_KEYS.forEach(function(k) {
+          var v = params.get(k);
+          if (v) { captured[k] = v; hasAny = true; }
+        });
+        return hasAny ? captured : null;
+      }
+
+      var stored = readCookie(COOKIE_NAME);
+      var fromUrl = parseUtmFromUrl();
+      var source = stored;
+
+      if (!stored && fromUrl) {
+        source = Object.assign({ captured_at: new Date().toISOString() }, fromUrl);
+        writeCookie(COOKIE_NAME, source);
+      }
+
+      window.__acquisitionSource = source;
+
+      // Push UTM as GA4 user properties BEFORE gtag('config') so they land on the initial page_view.
+      if (source) {
+        var props = {};
+        UTM_KEYS.forEach(function(k) { if (source[k]) props[k] = source[k]; });
+        if (Object.keys(props).length) {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(['set', 'user_properties', props]);
+        }
+      }
+    })();
+  </script>
+
   <!-- Google Analytics 4 (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
   <script>
@@ -1262,6 +1315,7 @@
     </div>
   </header>
 
+<main>
   <!-- ═══════════════════════════════════════════════════════════════
        HERO
        ═══════════════════════════════════════════════════════════════ -->
@@ -1487,21 +1541,21 @@
       <p>
         יש רעיון? בואו נדבר. אנחנו מאמינים שטכנולוגיה טובה מתחילה משיחה טובה.
       </p>
-      <form id="contactForm" class="contact-form">
+      <form id="contactForm" class="contact-form" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label>שם *</label>
-            <input type="text" name="name" required placeholder="השם שלך">
+            <input type="text" name="name" maxlength="100" required placeholder="השם שלך">
           </div>
           <div class="form-group">
             <label>ארגון</label>
-            <input type="text" name="organization" placeholder="שם הארגון (אופציונלי)">
+            <input type="text" name="organization" maxlength="200" placeholder="שם הארגון (אופציונלי)">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>אימייל *</label>
-            <input type="email" name="email" required placeholder="your@email.com">
+            <input type="email" name="email" maxlength="254" required placeholder="your@email.com">
           </div>
           <div class="form-group">
             <label>תקציב משוער</label>
@@ -1516,7 +1570,11 @@
         </div>
         <div class="form-group">
           <label>תיאור הפרויקט *</label>
-          <textarea name="message" rows="5" required placeholder="ספרו לנו קצת על הפרויקט..."></textarea>
+          <textarea name="message" rows="5" maxlength="5000" required placeholder="ספרו לנו קצת על הפרויקט..."></textarea>
+        </div>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label>Website (do not fill)</label>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
         </div>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
@@ -1530,6 +1588,7 @@
       </form>
     </div>
   </section>
+</main>
 
   <!-- ═══════════════════════════════════════════════════════════════
        FOOTER
@@ -1766,6 +1825,38 @@
       const form = document.getElementById('contactForm');
       const feedback = document.getElementById('formFeedback');
       if (!form) return;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const submitOriginalHTML = submitBtn ? submitBtn.innerHTML : '';
+
+      // Static fallback markup — no user input, safe to render as HTML.
+      const FALLBACK_HTML = ' אם הבעיה נמשכת, '
+        + '<a href="mailto:labs@har-zahav.com">שלחו אימייל ישיר ל־labs@har-zahav.com</a>'
+        + ' או <a href="https://www.linkedin.com/in/shayharzahav" target="_blank" rel="noopener">צרו קשר ב־LinkedIn</a>.';
+
+      function setBusy(busy) {
+        if (!submitBtn) return;
+        submitBtn.disabled = busy;
+        submitBtn.innerHTML = busy ? '<span>›</span> שולח...' : submitOriginalHTML;
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+      }
+
+      function showSuccess(msg) {
+        feedback.innerHTML = escapeHtml(msg);
+        feedback.className = 'form-feedback form-success';
+        feedback.style.display = 'block';
+        feedback.setAttribute('role', 'status');
+      }
+      function showError(msg, withFallback) {
+        feedback.innerHTML = escapeHtml(msg) + (withFallback ? FALLBACK_HTML : '');
+        feedback.className = 'form-feedback form-error';
+        feedback.style.display = 'block';
+        feedback.setAttribute('role', 'alert');
+      }
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1777,31 +1868,40 @@
           organization: form.organization.value.trim(),
           email: form.email.value.trim(),
           budget: form.budget.value,
-          message: form.message.value.trim()
+          message: form.message.value.trim(),
+          website: form.website ? form.website.value : ''
         };
 
+        if (!data.name || !data.email || !data.message) {
+          showError('יש למלא שם, אימייל ותיאור פרויקט.', false);
+          return;
+        }
+
+        setBusy(true);
         try {
           const res = await fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
           });
-          const result = await res.json();
+          const result = await res.json().catch(() => ({}));
 
           if (res.ok && result.success) {
-            feedback.textContent = 'הפנייה נשלחה בהצלחה. נחזור אליך בהקדם!';
-            feedback.classList.add('form-success');
+            showSuccess('הפנייה נשלחה בהצלחה. נחזור אליך בהקדם!');
             trackInquirySubmitted('contact_form', { name: data.name, email: data.email });
             form.reset();
+          } else if (res.status === 429) {
+            showError('יותר מדי ניסיונות מהכתובת שלך. נסה שוב בעוד מספר דקות.', true);
+          } else if (res.status === 400) {
+            showError(result.error || 'הזנה לא תקינה. בדוק את השדות ונסה שוב.', false);
           } else {
-            feedback.textContent = result.error || 'שגיאה בשליחת הפנייה. נסה שוב.';
-            feedback.classList.add('form-error');
+            showError('שגיאה בשליחת הפנייה.', true);
           }
         } catch (err) {
-          feedback.textContent = 'שגיאת רשת. נסה שוב מאוחר יותר.';
-          feedback.classList.add('form-error');
+          showError('שגיאת רשת.', true);
+        } finally {
+          setBusy(false);
         }
-        feedback.style.display = 'block';
       });
     })();
   </script>

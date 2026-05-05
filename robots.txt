@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /customers.html
-
 # AI agents & crawlers
 User-agent: GPTBot
 Allow: /
