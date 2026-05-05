@@ -626,6 +626,95 @@
       .status-row { gap: 6px; }
     }
   </style>
+
+  <!-- ========== PHASE 1 ANALYTICS INSTRUMENTATION ========== -->
+
+  <!-- Google Analytics 4 (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      send_page_view: true,
+      cookie_flags: 'SameSite=None;Secure'
+    });
+  </script>
+
+  <!-- Microsoft Clarity (heatmaps + session recordings) -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+  </script>
+
+  <!-- GA4 custom event helper for conversion tracking -->
+  <script>
+    function trackInquirySubmitted(method, details) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'inquiry_submitted', {
+          method: method || 'unknown',
+          page_path: window.location.pathname,
+          ...details
+        });
+      }
+    }
+  </script>
+
+  <!-- Scroll depth tracking -->
+  <script>
+    (function() {
+      var depths = [25, 50, 75, 90];
+      var triggered = {};
+      function checkDepth() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (docHeight <= 0) return;
+        var percent = Math.round((scrollTop / docHeight) * 100);
+        depths.forEach(function(d) {
+          if (percent >= d && !triggered[d]) {
+            triggered[d] = true;
+            if (typeof gtag === 'function') {
+              gtag('event', 'scroll_depth', {
+                percent: d,
+                page_path: window.location.pathname
+              });
+            }
+          }
+        });
+      }
+      window.addEventListener('scroll', checkDepth, { passive: true });
+      window.addEventListener('load', checkDepth);
+    })();
+  </script>
+
+  <!-- CTA click tracking -->
+  <script>
+    document.addEventListener('click', function(e) {
+      var el = e.target.closest('a, button');
+      if (!el) return;
+      var href = el.getAttribute('href') || '';
+      var text = (el.textContent || '').trim().substring(0, 50);
+      var isCta = el.classList.contains('btn') ||
+                  el.classList.contains('nav-cta') ||
+                  el.classList.contains('event-cta') ||
+                  el.classList.contains('pill') ||
+                  href.indexOf('mailto:') === 0 ||
+                  href.indexOf('tel:') === 0 ||
+                  href === '#contact';
+      if (isCta) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'cta_click', {
+            cta_text: text,
+            cta_href: href,
+            page_path: window.location.pathname
+          });
+        }
+      }
+    });
+  </script>
 </head>
 <body>
 

@@ -1046,6 +1046,85 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       CONTACT FORM
+       ═══════════════════════════════════════════════════════════════ */
+    .contact-form {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: right;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-tertiary);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: var(--fg);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-actions {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      margin-top: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .form-feedback {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-align: center;
+    }
+    .form-success {
+      background: rgba(181,189,104,0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+    .form-error {
+      background: rgba(204,102,102,0.1);
+      border: 1px solid var(--error);
+      color: var(--error);
+    }
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        ANIMATIONS
        ═══════════════════════════════════════════════════════════════ */
     @keyframes fadeInUp {
@@ -1061,6 +1140,98 @@
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
   </style>
+
+  <!-- ========== PHASE 1 ANALYTICS INSTRUMENTATION ========== -->
+
+  <!-- Google Search Console verification (DNS TXT also required) -->
+  <meta name="google-site-verification" content="GSC_VERIFICATION_CODE" />
+
+  <!-- Google Analytics 4 (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      send_page_view: true,
+      cookie_flags: 'SameSite=None;Secure'
+    });
+  </script>
+
+  <!-- Microsoft Clarity (heatmaps + session recordings) -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+  </script>
+
+  <!-- GA4 custom event helper for conversion tracking -->
+  <script>
+    function trackInquirySubmitted(method, details) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'inquiry_submitted', {
+          method: method || 'unknown',
+          page_path: window.location.pathname,
+          ...details
+        });
+      }
+    }
+  </script>
+
+  <!-- Scroll depth tracking -->
+  <script>
+    (function() {
+      var depths = [25, 50, 75, 90];
+      var triggered = {};
+      function checkDepth() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (docHeight <= 0) return;
+        var percent = Math.round((scrollTop / docHeight) * 100);
+        depths.forEach(function(d) {
+          if (percent >= d && !triggered[d]) {
+            triggered[d] = true;
+            if (typeof gtag === 'function') {
+              gtag('event', 'scroll_depth', {
+                percent: d,
+                page_path: window.location.pathname
+              });
+            }
+          }
+        });
+      }
+      window.addEventListener('scroll', checkDepth, { passive: true });
+      window.addEventListener('load', checkDepth);
+    })();
+  </script>
+
+  <!-- CTA click tracking -->
+  <script>
+    document.addEventListener('click', function(e) {
+      var el = e.target.closest('a, button');
+      if (!el) return;
+      var href = el.getAttribute('href') || '';
+      var text = (el.textContent || '').trim().substring(0, 50);
+      var isCta = el.classList.contains('btn') ||
+                  el.classList.contains('nav-cta') ||
+                  el.classList.contains('event-cta') ||
+                  el.classList.contains('pill') ||
+                  href.indexOf('mailto:') === 0 ||
+                  href.indexOf('tel:') === 0 ||
+                  href === '#contact';
+      if (isCta) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'cta_click', {
+            cta_text: text,
+            cta_href: href,
+            page_path: window.location.pathname
+          });
+        }
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -1076,7 +1247,7 @@
       <nav class="site-nav" id="siteNav">
         <a href="/work.html">תיק עבודות</a>
         <a href="/customers.html">לקוחות</a>
-        <a href="mailto:labs@har-zahav.com">צור קשר</a>
+        <a href="#contact">צור קשר</a>
         <a href="/customers.html" class="nav-cta">~/portal</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="החלף מצב תצוגה" title="החלף מצב תצוגה">
@@ -1113,7 +1284,7 @@
           <a href="/work.html" class="btn btn-primary">
             <span>›</span> תיק עבודות
           </a>
-          <a href="mailto:labs@har-zahav.com" class="btn btn-secondary">
+          <a href="#contact" class="btn btn-secondary">
             <span>$</span> צור קשר
           </a>
         </div>
@@ -1309,21 +1480,54 @@
   <!-- ═══════════════════════════════════════════════════════════════
        CTA
        ═══════════════════════════════════════════════════════════════ -->
-  <section class="cta-section">
+  <section class="cta-section" id="contact">
     <div class="container">
       <div class="section-label">// contact</div>
       <h2>בואו נבנה משהו יחד</h2>
       <p>
         יש רעיון? בואו נדבר. אנחנו מאמינים שטכנולוגיה טובה מתחילה משיחה טובה.
       </p>
-      <div class="hero-actions" style="justify-content:center">
-        <a href="mailto:labs@har-zahav.com" class="btn btn-primary">
-          <span>›</span> שלח מייל
-        </a>
-        <a href="https://www.linkedin.com/in/shayharzahav" target="_blank" class="btn btn-secondary">
-          <span>$</span> LinkedIn
-        </a>
-      </div>
+      <form id="contactForm" class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>שם *</label>
+            <input type="text" name="name" required placeholder="השם שלך">
+          </div>
+          <div class="form-group">
+            <label>ארגון</label>
+            <input type="text" name="organization" placeholder="שם הארגון (אופציונלי)">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>אימייל *</label>
+            <input type="email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>תקציב משוער</label>
+            <select name="budget">
+              <option value="">— בחר —</option>
+              <option value="10k-25k">₪10,000 – ₪25,000</option>
+              <option value="25k-50k">₪25,000 – ₪50,000</option>
+              <option value="50k-100k">₪50,000 – ₪100,000</option>
+              <option value="100k+">מעל ₪100,000</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>תיאור הפרויקט *</label>
+          <textarea name="message" rows="5" required placeholder="ספרו לנו קצת על הפרויקט..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <span>›</span> שלח פנייה
+          </button>
+          <a href="https://www.linkedin.com/in/shayharzahav" target="_blank" class="btn btn-secondary">
+            <span>$</span> LinkedIn
+          </a>
+        </div>
+        <div id="formFeedback" class="form-feedback" style="display:none;"></div>
+      </form>
     </div>
   </section>
 
@@ -1553,6 +1757,52 @@
 
       // Start after a brief delay
       setTimeout(runCycle, 800);
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // CONTACT FORM
+    // ═══════════════════════════════════════════════════════════════
+    (function() {
+      const form = document.getElementById('contactForm');
+      const feedback = document.getElementById('formFeedback');
+      if (!form) return;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        feedback.style.display = 'none';
+        feedback.className = 'form-feedback';
+
+        const data = {
+          name: form.name.value.trim(),
+          organization: form.organization.value.trim(),
+          email: form.email.value.trim(),
+          budget: form.budget.value,
+          message: form.message.value.trim()
+        };
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await res.json();
+
+          if (res.ok && result.success) {
+            feedback.textContent = 'הפנייה נשלחה בהצלחה. נחזור אליך בהקדם!';
+            feedback.classList.add('form-success');
+            trackInquirySubmitted('contact_form', { name: data.name, email: data.email });
+            form.reset();
+          } else {
+            feedback.textContent = result.error || 'שגיאה בשליחת הפנייה. נסה שוב.';
+            feedback.classList.add('form-error');
+          }
+        } catch (err) {
+          feedback.textContent = 'שגיאת רשת. נסה שוב מאוחר יותר.';
+          feedback.classList.add('form-error');
+        }
+        feedback.style.display = 'block';
+      });
     })();
   </script>
 
